@@ -57,7 +57,7 @@
       true,
       "ignore-params"
     ],
-    "no-non-null-assertion": true,
+    "no-non-null-assertion": false,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-use-before-declare": true,
@@ -86,7 +86,17 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
 
-    "no-bitwise": false
+    "no-bitwise": false,
+    "variable-name": [true, "allow-leading-underscore"],
+    "align": false,
+    "ter-arrow-parens": false,
+    "function-name": [true, {
+      "method-regex": "^\\*?\\[?[a-zA-Z][\\w\\d\\.]*\\]?$",
+      "private-method-regex": "^\\*?\\[?[a-zA-Z][\\w\\d\\.]*\\]?$",
+      "protected-method-regex": "^\\*?\\[?[a-zA-Z][\\w\\d\\.]*\\]?$",
+      "static-method-regex": "^\\*?\\[?[a-zA-Z][\\w\\d\\.]*\\]?$",
+      "function-regex": "^\\*?\\[?[a-zA-Z][\\w\\d\\.]*\\]?$"
+    }]
   },
   "rulesDirectory": [
     "codelyzer"

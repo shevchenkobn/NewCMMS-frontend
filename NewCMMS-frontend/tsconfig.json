@@ -17,6 +17,48 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+
+    "allowSyntheticDefaultImports": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "charset": "utf8",
+    "composite": false,
+    "declarationMap": false,
+    "diagnostics": false,
+    "disableSizeLimit": true,
+    "downlevelIteration": true,
+    "emitBOM": false,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": false,
+    "keyofStringsOnly": false,
+    "listEmittedFiles": true,
+    "maxNodeModuleJsDepth": 0,
+    "newLine": "crlf",
+    "noEmitHelpers": true,
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noStrictGenericChecks": false,
+    "plugins": [
+      { "transform": "ts-optchain/transform" }
+    ],
+    "preserveConstEnums": true,
+    "pretty": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "rootDir": "./src",
+    "skipLibCheck": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "suppressExcessPropertyErrors": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "types": ["node", "bluebird-global"]
   }
 }
