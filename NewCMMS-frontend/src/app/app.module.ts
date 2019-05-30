@@ -1,8 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from './shared/shared.module';
+import { getModuleWithProviders } from './shared/services/l10n.service';
 
 @NgModule({
   declarations: [
@@ -10,9 +13,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule,
+    getModuleWithProviders(),
   ],
-  providers: [],
+  providers: [
+    Title,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

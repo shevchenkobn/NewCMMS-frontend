@@ -46,12 +46,17 @@ export class AuthService {
   protected _onLoginChange: Subject<boolean>;
   protected _onTokenRefresh: Subject<string>;
   protected _onUserRefresh: Subject<Nullable<Readonly<IUser>>>;
+  private _prev?: AuthService;
 
   constructor(http: HttpClient) {
     this._http = http;
     this.jwt = new JwtHelperService({
       tokenGetter: () => this.getAccessToken(),
     });
+    if (!this._prev) {
+      console.log('found previous AuthService', this._prev);
+    }
+    this._prev = this;
 
     this._onLoginChange = new Subject<boolean>();
     this.onLoginChange = this._onLoginChange.asObservable();

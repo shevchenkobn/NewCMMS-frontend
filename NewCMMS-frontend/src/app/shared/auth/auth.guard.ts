@@ -18,7 +18,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  static readonly ROUTE_DATA_PROPERTY = 'authRoles';
+  static readonly ROLE_DATA_PROPERTY = 'authRoles';
   protected _auth: AuthService;
   protected _router: Router;
 
@@ -52,7 +52,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       }
       return false;
     }
-    const requiredRoles = (next.data || {})[AuthGuard.ROUTE_DATA_PROPERTY] as UserRoles | undefined;
+    const requiredRoles = (next.data || {})[AuthGuard.ROLE_DATA_PROPERTY] as UserRoles | undefined;
     if (typeof requiredRoles !== 'number') {
       return true;
     }

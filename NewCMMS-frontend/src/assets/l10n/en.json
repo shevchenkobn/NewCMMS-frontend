@@ -1,0 +1,37 @@
+{
+  "titles": {
+    "default": "NewCMMS",
+    "template": "NewCMMS: {{title}}",
+    "login": "Login",
+    "identity": "Identity",
+    "users": {
+      "list": "Users",
+      "details": "User details",
+      "create": "Create user",
+      "update": "Update user",
+      "delete": "Delete user"
+    },
+    "triggerDevices": {
+      "list": "Trigger devices",
+      "details": "Trigger device",
+      "create": "Create trigger device",
+      "update": "Update trigger device",
+      "delete": "Delete trigger device"
+    },
+    "actionDevices": {
+      "list": "Action devices",
+      "create": "Create action device",
+      "update": "Update action device",
+      "delete": "Delete action device"
+    },
+    "userTriggerHistory": {
+      "list": "User trigger history",
+      "delete": "Delete user trigger"
+    },
+    "bills": {
+      "list": "Bills",
+      "details": "Bill details",
+      "delete": "Delete bill"
+    }
+  }
+}
