@@ -48,11 +48,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       if (next instanceof ActivatedRouteSnapshot) {
         this.redirectToLoginFromSnapshot(next);
       } else {
-
+        this.redirectToLoginFromRoute(next);
       }
       return false;
     }
-    const requiredRoles = next.data[AuthGuard.ROUTE_DATA_PROPERTY] as UserRoles | undefined;
+    const requiredRoles = (next.data || {})[AuthGuard.ROUTE_DATA_PROPERTY] as UserRoles | undefined;
     if (typeof requiredRoles !== 'number') {
       return true;
     }

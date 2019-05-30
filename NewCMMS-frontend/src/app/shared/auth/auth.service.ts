@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { IUser } from '../models/user.model';
-import { Maybe } from '../../@types';
+import { Maybe, Nullable } from '../../@types';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { finalize, map, shareReplay, tap } from 'rxjs/operators';
 import { SharedModule } from '../shared.module';
@@ -35,17 +35,17 @@ export class AuthService {
   public redirectUrl?: ActivatedRouteSnapshot[] | string;
   public onLoginChange: Observable<boolean>;
   public onTokenRefresh: Observable<string>;
-  public onUserRefresh: Observable<Readonly<IUser> | undefined>;
+  public onUserRefresh: Observable<Nullable<Readonly<IUser>>>;
   protected readonly _http: HttpClient;
   protected _accessToken?: string;
-  protected _accessTokenExpiration: Date;
+  protected _accessTokenExpiration!: Date;
   protected _email = '';
   protected _login$?: Observable<string>;
   protected _tokenUpdate$?: Observable<string>;
   protected _user?: Readonly<IUser>;
   protected _onLoginChange: Subject<boolean>;
   protected _onTokenRefresh: Subject<string>;
-  protected _onUserRefresh: Subject<Maybe<Readonly<IUser>>>;
+  protected _onUserRefresh: Subject<Nullable<Readonly<IUser>>>;
 
   constructor(http: HttpClient) {
     this._http = http;
@@ -57,7 +57,7 @@ export class AuthService {
     this.onLoginChange = this._onLoginChange.asObservable();
     this._onTokenRefresh = new Subject<string>();
     this.onTokenRefresh = this._onTokenRefresh.asObservable();
-    this._onUserRefresh = new Subject<Readonly<IUser> | undefined>();
+    this._onUserRefresh = new Subject();
     this.onUserRefresh = this._onUserRefresh.asObservable();
   }
 
@@ -174,6 +174,7 @@ export class AuthService {
       throw new Error('Not logged in, cannot set localUser');
     }
     this._user = user;
+    localStorage.setItem(AuthService.LOCAL_STORAGE_USER, JSON.stringify(user));
     this._onUserRefresh.next(user);
   }
 
@@ -183,7 +184,7 @@ export class AuthService {
     localStorage.removeItem(AuthService.LOCAL_STORAGE_USER);
     this._accessToken = undefined;
     this._user = undefined;
-    this._onUserRefresh.next(undefined);
+    this._onUserRefresh.next(null);
     this._onLoginChange.next(false);
   }
 
@@ -197,6 +198,9 @@ export class AuthService {
   }
 
   protected setAccessTokenMembers(accessToken = localStorage.getItem(AuthService.LOCAL_STORAGE_ACCESS_TOKEN)) {
+    if (!accessToken) {
+      throw new TypeError('Access token is not defined');
+    }
     this._accessToken = accessToken;
     const date = this.jwt.getTokenExpirationDate(this._accessToken);
     this._accessTokenExpiration = date || new Date(8640000000000000);
