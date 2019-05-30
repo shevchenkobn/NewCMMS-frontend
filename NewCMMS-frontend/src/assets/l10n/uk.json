@@ -33,5 +33,16 @@
       "details": "Деталі рахунку",
       "delete": "Видалити рахунок"
     }
+  },
+  "nav": {
+    "languages": "Мова",
+    "navigation": "Навігація",
+    "profile": "Профіль",
+    "users": "Користувачі",
+    "triggerDevices": "Пристрої-тригери",
+    "actionDevices": "Пристрої-актори",
+    "bills": "Рахунки",
+    "login": "Увійти",
+    "logout": "Вийти"
   }
 }

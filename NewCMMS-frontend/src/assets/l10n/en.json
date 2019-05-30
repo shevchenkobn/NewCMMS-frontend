@@ -33,5 +33,16 @@
       "details": "Bill details",
       "delete": "Delete bill"
     }
+  },
+  "nav": {
+    "languages": "Language",
+    "navigation": "Navigation",
+    "profile": "Profile",
+    "users": "Users",
+    "triggerDevices": "Trigger devices",
+    "actionDevices": "Action devices",
+    "bills": "Bills",
+    "login": "Log in",
+    "logout": "Log out"
   }
 }

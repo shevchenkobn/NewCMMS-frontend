@@ -20,7 +20,10 @@ export class SidebarComponent implements OnInit {
   routerLinks = { // FIXME: use static constants
     login: 'login/',
     users: 'users/',
-    identity: 'identity/'
+    identity: 'identity/',
+    triggerDevices: 'trigger-devices/',
+    actionDevices: 'action-devices/',
+    bills: 'bills/',
   };
   locales = Object.entries({
     'uk': 'Українська',

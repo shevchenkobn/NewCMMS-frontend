@@ -6,6 +6,24 @@
     <span>{{ 'nav.login' | translate }}</span>
   </a>
   <a mat-list-item
+     *ngIf="isLoggedIn && (hasRole(userRoles.EMPLOYEE) || hasRole(userRoles.ADMIN))"
+     [routerLink]="[routerLinks.triggerDevices]">
+    <mat-icon mat-list-icon>nfc</mat-icon>
+    <span>{{ 'nav.triggerDevices' | translate }}</span>
+  </a>
+  <a mat-list-item
+     *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
+     [routerLink]="[routerLinks.actionDevices]">
+    <mat-icon mat-list-icon>devices</mat-icon>
+    <span>{{ 'nav.actionDevices' | translate }}</span>
+  </a>
+  <a mat-list-item
+     *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
+     [routerLink]="[routerLinks.bills]">
+    <mat-icon mat-list-icon>monetization_on</mat-icon>
+    <span>{{ 'nav.actionDevices' | translate }}</span>
+  </a>
+  <a mat-list-item
      *ngIf="isLoggedIn"
      [routerLink]="[routerLinks.identity]">
     <mat-icon mat-list-icon>account_circle</mat-icon>
