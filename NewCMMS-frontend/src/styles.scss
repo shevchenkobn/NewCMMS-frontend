@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+.app-mat-progress-bar-container > mat-progress-bar:first-of-type {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+}

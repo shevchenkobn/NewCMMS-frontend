@@ -4,16 +4,20 @@ import { httpInterceptorProviders } from './http/interceptors';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule, MatSidenavModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
-  providers: [
-    httpInterceptorProviders
-  ],
   imports: [
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
+
+    MatCardModule,
+    MatSidenavModule,
+  ],
+  providers: [
+    httpInterceptorProviders
   ],
   exports: [
     CommonModule,

@@ -49,11 +49,21 @@ export class L10nService {
 
     let locale = localStorage.getItem(LOCALE_KEY);
     if (!locale) {
-      const localePieces = this.translate.getBrowserCultureLang().split(/[_-]/g);
+      const currentLocale = this.translate.getBrowserCultureLang();
+      if (!currentLocale) {
+        return;
+      }
+      const localePieces = currentLocale.split(/[_-]/g);
       localePieces[1] = localePieces[1].toUpperCase();
       const browserLocale = localePieces.join('-');
       if (L10nService.locales.includes(browserLocale)) {
         locale = browserLocale;
+      }
+    }
+    if (!locale) {
+      const language = this.translate.getBrowserLang().toLowerCase();
+      if (L10nService.locales.includes(language)) {
+        locale = language;
       }
     }
     if (!locale) {
