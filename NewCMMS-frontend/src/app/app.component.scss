@@ -1,3 +1,5 @@
+$toolbar-height: 64px;
+
 mat-sidenav-container {
   display: block;
   min-height: 100%;
@@ -12,5 +14,10 @@ mat-toolbar {
 }
 
 mat-sidenav, mat-sidenav-content {
-  padding-top: 64px;
+  padding-top: $toolbar-height;
+}
+
+:host > app-progress-bar.navigator-progress-bar:first-of-type {
+  position: relative;
+  top: $toolbar-height;
 }

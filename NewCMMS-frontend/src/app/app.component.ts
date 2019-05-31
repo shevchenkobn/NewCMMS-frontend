@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { L10nService } from './shared/services/l10n.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild('snav', {static: true}) snav!: MatSidenav;
   mobileQuery: MediaQueryList;
 
@@ -54,11 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    if (!this.mobileQuery.matches) {
-      this.snav.open().catch(err => {
-        console.error('From app root sidenav open', err);
-      });
-    }
     this.isNavigating = false;
     this._routerEvents$ = this._router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -79,6 +74,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
     this._routerEvents$.unsubscribe();
     this._titleChanged$.unsubscribe();
+  }
+
+  ngAfterContentInit() {
+    if (!this.mobileQuery.matches) {
+      setTimeout(() => this.snav.open().catch(err => {
+        console.error('From app root sidenav open', err);
+      }), 0);
+    }
   }
 
   toggleSnav() {

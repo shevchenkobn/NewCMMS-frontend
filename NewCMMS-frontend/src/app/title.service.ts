@@ -31,7 +31,7 @@ export class TitleService {
     return keyPath !== TitleService.defaultTitleKey ? this._l10n.translate.translateAsync(keyPath).pipe(
       switchMap(translation => {
         // console.log(translation);
-        return translation ? this._l10n.translate.translateAsync('titles.template', {
+        return translation && translation !== keyPath ? this._l10n.translate.translateAsync('titles.template', {
           title: translation,
         }) : this._l10n.translate.translateAsync(TitleService.defaultTitleKey);
       }),

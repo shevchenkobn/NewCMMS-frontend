@@ -8,12 +8,14 @@ import { getModuleWithProviders } from './shared/services/l10n.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { L10nLoader } from 'angular-l10n';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     SidebarComponent,
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,

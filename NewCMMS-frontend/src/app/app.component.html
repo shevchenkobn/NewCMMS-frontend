@@ -4,6 +4,7 @@
     <h1>{{title}}</h1>
   </mat-toolbar-row>
 </mat-toolbar>
+<app-progress-bar class='navigator-progress-bar' [show]="isNavigating"></app-progress-bar>
 <mat-sidenav-container>
   <mat-sidenav #snav
                fixedInViewport="true"
@@ -12,7 +13,6 @@
     <app-sidebar></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-progress-bar mode="indeterminate" [style.visibility]="isNavigating ? 'visible' : 'hidden'"></mat-progress-bar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

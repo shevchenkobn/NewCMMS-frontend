@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { L10nService } from '../shared/services/l10n.service';
 import { Language } from 'angular-l10n';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-page-not-found',
@@ -20,10 +21,11 @@ export class PageNotFoundComponent implements OnInit, OnDestroy {
     path: ''
   };
 
-  constructor(route: ActivatedRoute, l10nService: L10nService) {
+  constructor(route: ActivatedRoute, l10nService: L10nService, title: TitleService) {
     this._route = route;
     this._l10n = l10nService;
     this.lang = this._l10n.locale.getCurrentLanguage();
+    title.setWrappedLocalizedTitle('titles.page-not-found');
   }
 
   ngOnInit() {
