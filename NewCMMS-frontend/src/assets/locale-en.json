@@ -4,6 +4,7 @@
     "template": "NewCMMS: {{title}}",
     "login": "Login",
     "identity": "Identity",
+    "page-not-found": "Page not found",
     "users": {
       "list": "Users",
       "details": "User details",
@@ -44,5 +45,8 @@
     "bills": "Bills",
     "login": "Log in",
     "logout": "Log out"
+  },
+  "page-not-found": {
+    "description": "The requested path {{path}} is not found"
   }
 }

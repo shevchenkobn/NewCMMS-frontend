@@ -7,7 +7,6 @@ import { IUser } from '../models/user.model';
 import { Maybe, Nullable } from '../../@types';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { finalize, map, shareReplay, tap } from 'rxjs/operators';
-import { SharedModule } from '../shared.module';
 
 interface ITokens {
   accessToken: string;
@@ -15,7 +14,7 @@ interface ITokens {
 }
 
 @Injectable({
-  providedIn: SharedModule,
+  providedIn: 'root',
 })
 export class AuthService {
   static readonly LOCAL_STORAGE_ACCESS_TOKEN = 'accessToken';
@@ -46,17 +45,12 @@ export class AuthService {
   protected _onLoginChange: Subject<boolean>;
   protected _onTokenRefresh: Subject<string>;
   protected _onUserRefresh: Subject<Nullable<Readonly<IUser>>>;
-  private _prev?: AuthService;
 
   constructor(http: HttpClient) {
     this._http = http;
     this.jwt = new JwtHelperService({
       tokenGetter: () => this.getAccessToken(),
     });
-    if (!this._prev) {
-      console.log('found previous AuthService', this._prev);
-    }
-    this._prev = this;
 
     this._onLoginChange = new Subject<boolean>();
     this.onLoginChange = this._onLoginChange.asObservable();
@@ -74,7 +68,10 @@ export class AuthService {
   }
 
   isAccessTokenExpired() {
-    return Date.now() < this._accessTokenExpiration.getTime();
+    if (!this._accessToken) {
+      this.setAccessTokenMembers();
+    }
+    return !this._accessTokenExpiration || Date.now() < this._accessTokenExpiration.getTime();
   }
 
   isLoggedIn() {

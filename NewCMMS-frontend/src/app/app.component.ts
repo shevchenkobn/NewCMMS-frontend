@@ -12,7 +12,7 @@ import { L10nService } from './shared/services/l10n.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  @ViewChild('snav', {static: false}) snav!: MatSidenav;
+  @ViewChild('snav', {static: true}) snav!: MatSidenav;
   mobileQuery: MediaQueryList;
 
   isNavigating!: boolean;
@@ -73,7 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this._titleChanged$ = this._titleService.onTitleChange.subscribe(title => {
       this.title = title;
     });
-    this._l10n.translate.get('titles.default', (title: string) => this.title = title);
   }
 
   ngOnDestroy() {
@@ -86,5 +85,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.snav.toggle().catch(err => {
       console.error('From snav toggle', err);
     });
+  }
+
+  updateTitle() {
+    this._l10n.translate.translateAsync('titles.default').subscribe((title: string) => this.title = title);
   }
 }

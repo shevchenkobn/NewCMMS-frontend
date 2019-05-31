@@ -1,38 +1,44 @@
 import { Injectable } from '@angular/core';
 import { SharedModule } from '../shared.module';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from '@angular/common/http';
+import { L10nConfig, LocaleService, LocalizationModule, LogLevel, ProviderType, StorageStrategy, TranslationService } from 'angular-l10n';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/l10n/', '.json');
-}
+const l10nConfig: L10nConfig = {
+  logger: {
+    level: LogLevel.Warn
+  },
+  locale: {
+    languages: [
+      { code: 'en', dir: 'ltr' },
+      { code: 'uk', dir: 'ltr' }
+    ],
+    defaultLocale: { languageCode: 'en', countryCode: 'US' },
+    currency: 'USD',
+    storage: StorageStrategy.Local
+  },
+  translation: {
+    providers: [
+      { type: ProviderType.Static, prefix: './assets/locale-' }
+    ],
+    caching: true,
+    composedKeySeparator: '.',
+  }
+};
 
 export function getModuleWithProviders() {
-  return TranslateModule.forRoot({
-    loader: {
-      provide: TranslateLoader,
-      useFactory: HttpLoaderFactory,
-      deps: [HttpClient],
-    },
-    useDefaultLang: true,
-  });
+  return LocalizationModule.forRoot(l10nConfig);
 }
-
-const LOCALE_KEY = 'locale';
 
 @Injectable({
   providedIn: SharedModule
 })
 export class L10nService {
   static readonly locales = ['en', 'uk'] as ReadonlyArray<string>;
-  static readonly defaultLocale = L10nService.locales[0];
-  translate: TranslateService;
+  translate: TranslationService;
+  locale: LocaleService;
 
-  constructor(translate: TranslateService) {
+  constructor(translate: TranslationService, localeService: LocaleService) {
     this.translate = translate;
-
-    this.init();
+    this.locale = localeService;
   }
 
   selectLocale(lang: string) {
@@ -40,36 +46,6 @@ export class L10nService {
       throw new TypeError(`Unknown locale: ${lang}`);
     }
 
-    this.translate.use(lang);
-    localStorage.setItem(LOCALE_KEY, lang);
-  }
-
-  private init() {
-    this.translate.addLangs(L10nService.locales.slice());
-
-    let locale = localStorage.getItem(LOCALE_KEY);
-    if (!locale) {
-      const currentLocale = this.translate.getBrowserCultureLang();
-      if (!currentLocale) {
-        return;
-      }
-      const localePieces = currentLocale.split(/[_-]/g);
-      localePieces[1] = localePieces[1].toUpperCase();
-      const browserLocale = localePieces.join('-');
-      if (L10nService.locales.includes(browserLocale)) {
-        locale = browserLocale;
-      }
-    }
-    if (!locale) {
-      const language = this.translate.getBrowserLang().toLowerCase();
-      if (L10nService.locales.includes(language)) {
-        locale = language;
-      }
-    }
-    if (!locale) {
-      locale = L10nService.defaultLocale;
-    }
-    this.translate.setDefaultLang(locale);
-    localStorage.setItem(LOCALE_KEY, locale);
+    this.locale.setCurrentLanguage(lang);
   }
 }

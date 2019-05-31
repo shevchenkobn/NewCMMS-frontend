@@ -4,6 +4,7 @@
     "template": "NewCMMS: {{title}}",
     "login": "Авторизація",
     "identity": "Профіль",
+    "page-not-found": "Сторінку не знайдено",
     "users": {
       "list": "Користувачі",
       "details": "Користувач",
@@ -44,5 +45,8 @@
     "bills": "Рахунки",
     "login": "Увійти",
     "logout": "Вийти"
+  },
+  "page-not-found": {
+    "description": "Сторінка за шляхом {{path}} не знайдена"
   }
 }

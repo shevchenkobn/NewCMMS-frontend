@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { L10nService } from '../shared/services/l10n.service';
 import { AuthService } from '../shared/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IUser, UserRoles } from '../shared/models/user.model';
 import { Nullable } from '../@types';
+import { Language } from 'angular-l10n';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   l10n: L10nService;
   isLoggedIn: boolean;
   user?: Nullable<IUser>;
   userRoles = UserRoles;
-  activeLocale: string;
+  @Language() activeLang: string;
   routerLinks = { // FIXME: use static constants
     login: 'login/',
     users: 'users/',
@@ -34,6 +35,7 @@ export class SidebarComponent implements OnInit {
 
   private onLoginChange$!: Subscription;
   private onUserRefresh$!: Subscription;
+  private onLangChange$!: Subscription;
 
   private onLoginChange = (isLoggedIn: boolean) => {
     this.isLoggedIn = isLoggedIn;
@@ -52,7 +54,7 @@ export class SidebarComponent implements OnInit {
     this._auth = authService;
     this._router = router;
 
-    this.activeLocale = l10nService.translate.getDefaultLang();
+    this.activeLang = l10nService.locale.getCurrentLanguage();
     this.isLoggedIn = this._auth.isLoggedIn();
   }
 
@@ -62,7 +64,6 @@ export class SidebarComponent implements OnInit {
 
   selectLocale(locale: string) {
     this.l10n.selectLocale(locale);
-    this.activeLocale = locale;
   }
 
   logout() {
@@ -77,6 +78,13 @@ export class SidebarComponent implements OnInit {
     this.onUserRefresh$ = this._auth.onUserRefresh.subscribe(user => {
       this.user = user;
     });
+    this.onLangChange$ = this.l10n.translate.translationChanged().subscribe(lang => this.activeLang = lang);
     this.onLoginChange(this._auth.isLoggedIn());
+  }
+
+  ngOnDestroy() {
+    this.onLoginChange$.unsubscribe();
+    this.onUserRefresh$.unsubscribe();
+    this.onLangChange$.unsubscribe();
   }
 }

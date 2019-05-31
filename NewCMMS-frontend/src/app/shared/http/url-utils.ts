@@ -1,11 +1,11 @@
 import { environment } from '../../../environments/environment';
 
-const apiBaseUrl = !environment.apiRoot.endsWith('/') && !environment.apiRoot.endsWith('/')
+const apiBaseUrl = !environment.host.endsWith('/') && !environment.apiRoot.startsWith('/')
   ? `${environment.host}/${environment.apiRoot}`
   : (
-    environment.apiRoot.endsWith('/') && environment.apiRoot.endsWith('/')
-    ? `${environment.host}/${environment.apiRoot.slice(1)}`
-    : `${environment.host}/${environment.apiRoot}`
+    environment.host.endsWith('/') && environment.apiRoot.startsWith('/')
+    ? `${environment.host}${environment.apiRoot.slice(1)}`
+    : `${environment.host}${environment.apiRoot}`
   );
 
 export function getApiBaseUrl() {

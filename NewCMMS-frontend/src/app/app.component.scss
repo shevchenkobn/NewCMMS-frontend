@@ -1,0 +1,16 @@
+mat-sidenav-container {
+  display: block;
+  min-height: 100%;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%  !important;
+}
+
+mat-sidenav, mat-sidenav-content {
+  padding-top: 64px;
+}

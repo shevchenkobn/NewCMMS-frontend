@@ -9,9 +9,9 @@
                fixedInViewport="true"
                class="mat-elevation-z2"
                [mode]="mobileQuery.matches ? 'over' : 'side'">
-    <app-sidenav></app-sidenav>
+    <app-sidebar></app-sidebar>
   </mat-sidenav>
-  <mat-sidenav-content class="app-mat-progress-bar-container">
+  <mat-sidenav-content>
     <mat-progress-bar mode="indeterminate" [style.visibility]="isNavigating ? 'visible' : 'hidden'"></mat-progress-bar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

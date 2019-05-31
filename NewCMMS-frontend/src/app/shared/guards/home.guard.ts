@@ -12,7 +12,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IUser, UserRoles } from '../models/user.model';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 

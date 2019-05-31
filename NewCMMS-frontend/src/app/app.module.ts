@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { getModuleWithProviders } from './shared/services/l10n.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { L10nLoader } from 'angular-l10n';
 
 @NgModule({
   declarations: [
@@ -25,4 +26,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private l10nLoader: L10nLoader) {
+    this.l10nLoader.load().catch(err => {
+      console.log('Error from locale init', err);
+    });
+  }
+}

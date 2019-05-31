@@ -11,10 +11,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ServerErrorCode } from '../http/error-codes';
 import { Router } from '@angular/router';
-import { SharedModule } from '../shared.module';
+import { BaseUrlInterceptor } from '../http/base-url.interceptor';
 
 @Injectable({
-  providedIn: SharedModule,
+  providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
   private _auth: AuthService;
@@ -26,13 +26,16 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (AuthService.NO_AUTH_PATHS.some(([path, methods, matchFull]) => (
-      (
-        matchFull && req.url === path || !matchFull && req.url.startsWith(path)
-      ) && (
-        !methods || methods.includes(req.method)
-      )
-    ))) {
+    if (
+      (BaseUrlInterceptor.isAssetRequest(req.url))
+      || AuthService.NO_AUTH_PATHS.some(([path, methods, matchFull]) => (
+        (
+          matchFull && req.url === path || !matchFull && req.url.startsWith(path)
+        ) && (
+          !methods || methods.includes(req.method)
+        )
+      ))
+    ) {
       return next.handle(req);
     }
     if (this._auth.isAccessTokenExpired()) {

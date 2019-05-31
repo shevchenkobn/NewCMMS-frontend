@@ -3,31 +3,31 @@
      *ngIf="!isLoggedIn"
      [routerLink]="[routerLinks.login]">
     <mat-icon mat-list-icon>exit_to_app</mat-icon>
-    <span>{{ 'nav.login' | translate }}</span>
+    <span>{{ 'nav.login' | translate:activeLang }}</span>
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && (hasRole(userRoles.EMPLOYEE) || hasRole(userRoles.ADMIN))"
      [routerLink]="[routerLinks.triggerDevices]">
     <mat-icon mat-list-icon>nfc</mat-icon>
-    <span>{{ 'nav.triggerDevices' | translate }}</span>
+    <span>{{ 'nav.triggerDevices' | translate:activeLang }}</span>
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
      [routerLink]="[routerLinks.actionDevices]">
     <mat-icon mat-list-icon>devices</mat-icon>
-    <span>{{ 'nav.actionDevices' | translate }}</span>
+    <span>{{ 'nav.actionDevices' | translate:activeLang }}</span>
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
      [routerLink]="[routerLinks.bills]">
     <mat-icon mat-list-icon>monetization_on</mat-icon>
-    <span>{{ 'nav.actionDevices' | translate }}</span>
+    <span>{{ 'nav.actionDevices' | translate:activeLang }}</span>
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn"
      [routerLink]="[routerLinks.identity]">
     <mat-icon mat-list-icon>account_circle</mat-icon>
-    <span>{{ 'nav.profile' | translate }}</span>
+    <span>{{ 'nav.profile' | translate:activeLang }}</span>
   </a>
 <!--  <a mat-list-item-->
 <!--     *ngIf="isLoggedIn && hasRole(userRoles.EMPLOYEE)"-->
@@ -39,13 +39,13 @@
      [routerLink]="[routerLinks.users]"
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)">
     <mat-icon mat-list-icon>people</mat-icon>
-    <span>{{ 'nav.users' | translate }}</span>
+    <span>{{ 'nav.users' | translate:activeLang }}</span>
   </a>
   <mat-list-item mat-list-item
                  *ngIf="isLoggedIn"
                  (click)="logout()">
     <mat-icon mat-list-icon>exit_to_app</mat-icon>
-    <span>{{ 'nav.logout' | translate }}</span>
+    <span>{{ 'nav.logout' | translate:activeLang }}</span>
   </mat-list-item>
 </mat-nav-list>
 <mat-divider></mat-divider>
@@ -53,14 +53,14 @@
   <mat-expansion-panel-header>
     <mat-panel-title>
       <mat-icon>translate</mat-icon>
-      <span class="mat-icon-label right">{{ 'nav.languages' | translate }}</span>
+      <span class="mat-icon-label right">{{ 'nav.languages' | translate:activeLang }}</span>
     </mat-panel-title>
     <mat-panel-description>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-list>
     <mat-list-item *ngFor="let locale of locales">
-      <mat-radio-button (click)="selectLocale(locale[0])" [checked]="activeLocale === locale[0]">
+      <mat-radio-button (click)="selectLocale(locale[0])" [checked]="activeLang === locale[0]">
         {{locale[1]}}
       </mat-radio-button>
     </mat-list-item>
