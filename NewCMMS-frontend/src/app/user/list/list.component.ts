@@ -3,26 +3,40 @@ import { UsersService } from '../services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
-import { IUser, userRoleNames, userRoleToObject } from '../../shared/models/user.model';
+import { IUser, superUserId, userRoleNames, UserRoles, userRoleToObject } from '../../shared/models/user.model';
 import { finalize, switchMap } from 'rxjs/operators';
 import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/error-codes';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Language } from 'angular-l10n';
 import { Subscription } from 'rxjs';
+import { ProfileResolver } from '../../shared/auth/identity.resolver';
+import { UsersResolver } from '../resolvers/users.resolver';
+import { usersBaseRoute } from '../../app-routing.module';
+import { TitleService } from '../../title.service';
 
 @Component({
   selector: 'app-list',
+  host: {
+    class: 'fit-parent-height',
+  },
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
-  readonly MASTER_ADMIN_ID = 1;
+  static readonly route = '';
+  readonly superUserId = superUserId;
   @Language() lang: string;
   currentUser!: IUser;
   isMakingRequest!: boolean;
   roleNames = userRoleNames;
   users!: IUser[];
   userRoles!: ({ [role: string]: boolean })[];
+  columnsToDisplay!: ReadonlyArray<string>;
+  routerLinks = { // FIXME: user static constants
+    create: 'create',
+    edit: 'edit',
+    userTriggerHistory: 'trigger-history'
+  };
   protected _langChanged$!: Subscription;
   protected _users: UsersService;
   protected _route: ActivatedRoute;
@@ -36,6 +50,7 @@ export class ListComponent implements OnInit, OnDestroy {
     dialog: MatDialog,
     snackBar: MatSnackBar,
     l10n: L10nService,
+    title: TitleService,
   ) {
     this._users = users;
     this._route = route;
@@ -43,6 +58,11 @@ export class ListComponent implements OnInit, OnDestroy {
     this._snackBar = snackBar;
     this._l10n = l10n;
     this.lang = this._l10n.locale.getCurrentLanguage();
+    title.setWrappedLocalizedTitle('titles.users.list');
+  }
+
+  static getAbsoluteRoute() {
+    return [usersBaseRoute, this.route];
   }
 
   refresh() {
@@ -64,6 +84,9 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(userId: number) {
+    if (!(this.currentUser.role & UserRoles.ADMIN) || userId === this.currentUser.userId || userId === this.superUserId) {
+      return;
+    }
     this._dialog.open(ConfirmDialogComponent, {
       data: {
         message: 'user.delete.question'
@@ -113,9 +136,12 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.saveUsers(this._route.snapshot.data['users'] as IUser[]);
-    this.currentUser = this._route.snapshot.data['profile'];
     this._langChanged$ = this._l10n.languageCodeChangedLoadFinished.subscribe(lang => this.lang = lang);
+    this.saveUsers(this._route.snapshot.data[UsersResolver.propName] as IUser[]);
+    this.currentUser = this._route.snapshot.data[ProfileResolver.propName];
+    this.columnsToDisplay = this.currentUser.role & UserRoles.ADMIN
+      ? ['name', 'email', 'role', 'userTriggerHistory', 'edit', 'delete']
+      : ['name', 'email', 'role'];
     this.isMakingRequest = false;
   }
 

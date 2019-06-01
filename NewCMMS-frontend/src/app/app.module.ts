@@ -8,6 +8,7 @@ import { getModuleWithProviders, L10nService } from './shared/services/l10n.serv
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginComponent } from './login/login.component';
+import { UserModule } from './user/user.module';
 
 export function onAppInitProvider(l10nService: L10nService) {
   return () => {
@@ -26,9 +27,10 @@ export function onAppInitProvider(l10nService: L10nService) {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     SharedModule,
     getModuleWithProviders(),
+    UserModule,
+    AppRoutingModule, // it should be last
   ],
   providers: [
     Title,

@@ -81,6 +81,10 @@
       "role": "Roles",
       "full-name": "Full name"
     },
+    "roles": {
+      "EMPLOYEE": "Employee",
+      "ADMIN": "Admin"
+    },
     "errors": {
       "email": "Valid email is required",
       "full-name": "Full name is required",

@@ -7,6 +7,7 @@ import { IUser, UserRoles } from '../shared/models/user.model';
 import { Nullable } from '../@types';
 import { Language } from 'angular-l10n';
 import { LoginComponent } from '../login/login.component';
+import { ListComponent as UserListComponent } from '../user/list/list.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,7 +22,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Language() activeLang: string;
   routerLinks = { // FIXME: use static constants
     login: LoginComponent.route,
-    users: 'users/',
+    users: UserListComponent.getAbsoluteRoute(),
     identity: 'identity/',
     triggerDevices: 'trigger-devices/',
     actionDevices: 'action-devices/',

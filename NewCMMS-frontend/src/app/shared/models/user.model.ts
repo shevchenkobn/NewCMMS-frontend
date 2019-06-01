@@ -18,7 +18,7 @@ export interface IUserChange {
 }
 
 export interface IUser {
-  userId: string;
+  userId: number;
   email: string;
   role: UserRoles;
   fullName: string;
@@ -27,6 +27,8 @@ export interface IUser {
 export interface IPasswordUser extends IUser {
   password?: string;
 }
+
+export const superUserId = 1;
 
 export function userRoleToObject(user?: Readonly<IUser>) {
   if (!user || !user.role) {

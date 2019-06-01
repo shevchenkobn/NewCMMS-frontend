@@ -5,14 +5,14 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <app-progress-bar class='navigator-progress-bar' [show]="isNavigating"></app-progress-bar>
-<mat-sidenav-container>
+<mat-sidenav-container class="height-100">
   <mat-sidenav #snav
                fixedInViewport="true"
                class="mat-elevation-z2"
                [mode]="mobileQuery.matches ? 'over' : 'side'">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content class="height-100">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

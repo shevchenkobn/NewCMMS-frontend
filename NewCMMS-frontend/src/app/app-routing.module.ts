@@ -5,6 +5,8 @@ import { AuthGuard } from './shared/auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
 
+export const usersBaseRoute = 'users';
+
 const routes: Routes = [
   { path: LoginComponent.route, component: LoginComponent, pathMatch: 'full' },
   { path: PageNotFoundComponent.dedicatedRoute, component: PageNotFoundComponent, pathMatch: 'full' },

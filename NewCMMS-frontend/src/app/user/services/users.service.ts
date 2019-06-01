@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IUser, IUserChange } from '../../shared/models/user.model';
 import { Observable } from 'rxjs';
 import { isNumericId } from '../../shared/validators/id';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class UsersService {
   }
 
   getUsers() {
-    return this._http.get<IUser[]>(UsersService.USERS_BASE);
+    return this._http.get<{ users: IUser[] }>(UsersService.USERS_BASE).pipe(
+      map(users => users.users),
+    );
   }
 
   getUser(userId: number) {

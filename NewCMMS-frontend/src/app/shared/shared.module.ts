@@ -9,8 +9,6 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { LocalizationModule, TranslationModule } from 'angular-l10n';
 
-
-
 @NgModule({
   declarations: [
     ProgressBarComponent,
@@ -21,6 +19,8 @@ import { LocalizationModule, TranslationModule } from 'angular-l10n';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    TranslationModule,
+    LocalizationModule,
 
     MaterialModule,
   ],
@@ -30,11 +30,15 @@ import { LocalizationModule, TranslationModule } from 'angular-l10n';
   exports: [
     CommonModule,
     ReactiveFormsModule,
+    // BrowserAnimationsModule,
     TranslationModule,
     LocalizationModule,
-    // BrowserAnimationsModule,
 
     MaterialModule,
+    ProgressBarComponent,
+  ],
+  entryComponents: [
+    ConfirmDialogComponent,
   ]
 })
 export class SharedModule { }

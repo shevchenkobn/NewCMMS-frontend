@@ -9,6 +9,9 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     SharedModule,
     UserRoutingModule
+  ],
+  exports: [
+    UserRoutingModule,
   ]
 })
 export class UserModule { }

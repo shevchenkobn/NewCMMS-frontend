@@ -23,12 +23,12 @@
     <mat-icon mat-list-icon>monetization_on</mat-icon>
     <span>{{ 'nav.bills' | translate:activeLang }}</span>
   </a>
-  <a mat-list-item
-     *ngIf="isLoggedIn"
-     [routerLink]="[routerLinks.identity]">
-    <mat-icon mat-list-icon>account_circle</mat-icon>
-    <span>{{ 'nav.profile' | translate:activeLang }}</span>
-  </a>
+<!--  <a mat-list-item-->
+<!--     *ngIf="isLoggedIn"-->
+<!--     [routerLink]="[routerLinks.identity]">-->
+<!--    <mat-icon mat-list-icon>account_circle</mat-icon>-->
+<!--    <span>{{ 'nav.profile' | translate:activeLang }}</span>-->
+<!--  </a>-->
 <!--  <a mat-list-item-->
 <!--     *ngIf="isLoggedIn && hasRole(userRoles.EMPLOYEE)"-->
 <!--     [routerLink]="['/home/drones']">-->
@@ -36,7 +36,7 @@
 <!--    <span>{{ 'nav.my-drones' | translate }}</span>-->
 <!--  </a>-->
   <a mat-list-item
-     [routerLink]="[routerLinks.users]"
+     [routerLink]="routerLinks.users"
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)">
     <mat-icon mat-list-icon>people</mat-icon>
     <span>{{ 'nav.users' | translate:activeLang }}</span>
