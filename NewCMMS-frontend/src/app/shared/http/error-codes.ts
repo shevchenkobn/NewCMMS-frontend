@@ -59,6 +59,8 @@ export function getCommonErrorMessage(err: HttpErrorResponse) {
     if (err.error && err.error.code === ServerErrorCode.AUTH_ROLE) {
       return 'errors.role';
     }
+  } else if (err.status === 0) {
+    return 'errors.network';
   }
   return '';
 }

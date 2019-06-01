@@ -30,3 +30,8 @@ export type DeepPartial<T> = {
 export type DeepNullablePartial<T> = {
   [P in keyof T]?: Nullable<DeepNullablePartial<T[P]>>;
 };
+
+export interface IDialogData {
+  message: string;
+  messageParams?: { [param: string]: string };
+}

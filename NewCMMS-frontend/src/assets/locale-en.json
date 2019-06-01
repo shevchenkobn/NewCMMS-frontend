@@ -48,6 +48,7 @@
   },
   "errors": {
     "network": "Networking error, try again",
+    "role": "This action is not allowed",
     "unknown": "Unknown error, try again"
   },
   "dialog": {
@@ -72,5 +73,28 @@
   },
   "page-not-found": {
     "description": "The requested path {{path}} is not found"
+  },
+  "user": {
+    "labels": {
+      "email": "Email",
+      "password": "Password",
+      "role": "Roles",
+      "full-name": "Full name"
+    },
+    "errors": {
+      "email": "Valid email is required",
+      "full-name": "Full name is required",
+      "role": "At least one role must be set",
+      "password": "Password must be not shorter than 6 characters, have at least a letter, an uppercase letter, a digit and a symbol",
+      "not-found": "The user is not found (was deleted previously)",
+      "email-dup": "There exists user with such email"
+    },
+    "delete": {
+      "question": "Delete user?",
+      "done": "User was deleted",
+      "errors": {
+        "delete-not-allowed": "The user cannot be deleted"
+      }
+    }
   }
 }

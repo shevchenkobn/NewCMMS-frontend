@@ -52,6 +52,7 @@ export class AuthService {
       tokenGetter: () => this.getAccessToken(),
     });
 
+    this.setAccessTokenMembers();
     this._onLoginChange = new Subject<boolean>();
     this.onLoginChange = this._onLoginChange.asObservable();
     this._onTokenRefresh = new Subject<string>();
@@ -69,8 +70,7 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return localStorage.getItem(AuthService.LOCAL_STORAGE_REFRESH_TOKEN) !== null
-      && localStorage.getItem(AuthService.LOCAL_STORAGE_ACCESS_TOKEN) !== null;
+    return !!this._accessToken;
   }
 
   refreshToken() {
@@ -91,7 +91,9 @@ export class AuthService {
       }),
       tap(tokens => {
         this.saveAccessToken(tokens.accessToken);
-        localStorage.setItem(AuthService.LOCAL_STORAGE_REFRESH_TOKEN, tokens.refreshToken);
+        if (typeof tokens.refreshToken === 'string') {
+          localStorage.setItem(AuthService.LOCAL_STORAGE_REFRESH_TOKEN, tokens.refreshToken);
+        }
 
         this._onTokenRefresh.next(tokens.accessToken);
       }),
@@ -182,10 +184,6 @@ export class AuthService {
     this._user = undefined;
     this._onUserRefresh.next(null);
     this._onLoginChange.next(false);
-  }
-
-  protected getRefreshToken() {
-    return localStorage.getItem(AuthService.LOCAL_STORAGE_REFRESH_TOKEN);
   }
 
   protected saveAccessToken(accessToken: string) {

@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 import { getModuleWithProviders, L10nService } from './shared/services/l10n.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { LoginComponent } from './login/login.component';
 
 export function onAppInitProvider(l10nService: L10nService) {
@@ -23,7 +22,6 @@ export function onAppInitProvider(l10nService: L10nService) {
     AppComponent,
     PageNotFoundComponent,
     SidebarComponent,
-    ProgressBarComponent,
     LoginComponent,
   ],
   imports: [

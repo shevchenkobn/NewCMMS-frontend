@@ -28,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (
-      (BaseUrlInterceptor.isAssetRequest(req.url))
+      (BaseUrlInterceptor.isLocalRequest(req.url))
       || AuthService.NO_AUTH_PATHS.some(([path, methods, matchFull]) => (
         (
           matchFull && req.url === path || !matchFull && req.url.startsWith(path)

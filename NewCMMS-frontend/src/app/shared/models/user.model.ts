@@ -10,6 +10,13 @@ export const userRoleNames = Object.keys(UserRoles).filter(
   r => Number.isNaN(Number.parseInt(r, 10))
 );
 
+export interface IUserChange {
+  email: string;
+  role: UserRoles;
+  fullName: string;
+  password: string;
+}
+
 export interface IUser {
   userId: string;
   email: string;
