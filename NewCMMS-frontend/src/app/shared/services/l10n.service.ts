@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
-import { SharedModule } from '../shared.module';
-import { L10nConfig, LocaleService, LocalizationModule, LogLevel, ProviderType, StorageStrategy, TranslationService } from 'angular-l10n';
+import {
+  L10nConfig,
+  L10nLoader,
+  LocaleService,
+  LocalizationModule,
+  LogLevel,
+  ProviderType,
+  StorageStrategy,
+  TranslationService,
+} from 'angular-l10n';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 const l10nConfig: L10nConfig = {
   logger: {
@@ -29,16 +38,26 @@ export function getModuleWithProviders() {
 }
 
 @Injectable({
-  providedIn: SharedModule
+  providedIn: 'root'
 })
 export class L10nService {
   static readonly locales = ['en', 'uk'] as ReadonlyArray<string>;
   translate: TranslationService;
   locale: LocaleService;
+  languageCodeChangedLoadFinished: Observable<string>;
+  protected _languageCodeChangedLoadFinished: Subject<string>;
+  protected _loader: L10nLoader;
 
-  constructor(translate: TranslationService, localeService: LocaleService) {
+  constructor(translate: TranslationService, localeService: LocaleService, loader: L10nLoader) {
     this.translate = translate;
     this.locale = localeService;
+    this._loader = loader;
+    this._languageCodeChangedLoadFinished = new Subject();
+    this.languageCodeChangedLoadFinished = this._languageCodeChangedLoadFinished.asObservable();
+    this.locale.languageCodeChanged.subscribe(lang => {
+      this.init().then(() => this._languageCodeChangedLoadFinished.next(lang));
+    });
+    this.init();
   }
 
   selectLocale(lang: string) {
@@ -47,5 +66,13 @@ export class L10nService {
     }
 
     this.locale.setCurrentLanguage(lang);
+  }
+
+  init() {
+    const promise = this._loader.load();
+    promise.catch(err => {
+      console.error('Error when l10n init', err);
+    });
+    return promise;
   }
 }

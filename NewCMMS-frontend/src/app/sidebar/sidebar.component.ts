@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { IUser, UserRoles } from '../shared/models/user.model';
 import { Nullable } from '../@types';
 import { Language } from 'angular-l10n';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,7 +20,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userRoles = UserRoles;
   @Language() activeLang: string;
   routerLinks = { // FIXME: use static constants
-    login: 'login/',
+    login: LoginComponent.route,
     users: 'users/',
     identity: 'identity/',
     triggerDevices: 'trigger-devices/',
@@ -68,7 +69,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   logout() {
     this._auth.logout();
-    this._router.navigateByUrl('/login').catch(err => { // FIXME: use static constant for path
+    this._router.navigateByUrl(LoginComponent.route).catch(err => {
       console.error('From sidenav logout redirect ', err);
     });
   }

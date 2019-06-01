@@ -46,10 +46,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
       }
     };
 
-    this.title = 'NewCMMS';
     this._router = router;
     this._titleService = titleService;
     this._l10n = l10nService;
+    this.title = this._l10n.translate.translate(TitleService.defaultTitleKey);
   }
 
   ngOnInit() {
@@ -88,9 +88,5 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
     this.snav.toggle().catch(err => {
       console.error('From snav toggle', err);
     });
-  }
-
-  updateTitle() {
-    this._l10n.translate.translateAsync('titles.default').subscribe((title: string) => this.title = title);
   }
 }

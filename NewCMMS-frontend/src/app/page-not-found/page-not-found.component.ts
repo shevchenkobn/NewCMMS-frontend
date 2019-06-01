@@ -11,6 +11,7 @@ import { TitleService } from '../title.service';
   styleUrls: ['./page-not-found.component.scss']
 })
 export class PageNotFoundComponent implements OnInit, OnDestroy {
+  static readonly dedicatedRoute = 'not-found';
   private _route: ActivatedRoute;
   private _route$?: Subscription;
   private _l10n: L10nService;

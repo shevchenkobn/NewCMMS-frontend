@@ -12,6 +12,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { ServerErrorCode } from '../http/error-codes';
 import { Router } from '@angular/router';
 import { BaseUrlInterceptor } from '../http/base-url.interceptor';
+import { LoginComponent } from '../../login/login.component';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +95,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private handleRefreshExpire() {
     this._auth.logout();
-    this._router.navigateByUrl('/login').catch(err => {
+    this._router.navigateByUrl(LoginComponent.route).catch(err => {
       console.error('From AuthInterceptor redirect to login');
     });
   }

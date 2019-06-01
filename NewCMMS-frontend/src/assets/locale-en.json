@@ -46,6 +46,30 @@
     "login": "Log in",
     "logout": "Log out"
   },
+  "errors": {
+    "network": "Networking error, try again",
+    "unknown": "Unknown error, try again"
+  },
+  "dialog": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "ok-good": "OK"
+  },
+  "login-page": {
+    "labels": {
+      "login": "Login",
+      "password": "Password"
+    },
+    "submit": "Log in",
+    "redirect": "After entering your credentials, you will be automatically redirected to {{redirect}}",
+    "home": "your home page",
+    "error": {
+      "client-msg": "Invalid login or password",
+      "email": "Enter valid email",
+      "password": "Enter your password"
+    }
+  },
   "page-not-found": {
     "description": "The requested path {{path}} is not found"
   }

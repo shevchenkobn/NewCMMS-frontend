@@ -23,36 +23,33 @@ export class TitleService {
     this.onTitleChange = this._onTitleChange.asObservable();
     this._titleKey = TitleService.defaultTitleKey;
     this._l10n.translate.translationChanged().subscribe(() => {
-      this.setWrappedLocalizedTitle(this._titleKey).subscribe();
+      this.setWrappedLocalizedTitle(this._titleKey);
     });
   }
 
-  getWrappedLocalizedTitleOrDefault(keyPath: string): Observable<string> {
-    return keyPath !== TitleService.defaultTitleKey ? this._l10n.translate.translateAsync(keyPath).pipe(
-      switchMap(translation => {
-        // console.log(translation);
-        return translation && translation !== keyPath ? this._l10n.translate.translateAsync('titles.template', {
-          title: translation,
-        }) : this._l10n.translate.translateAsync(TitleService.defaultTitleKey);
-      }),
-    ) : this._l10n.translate.translateAsync(TitleService.defaultTitleKey);
+  getWrappedLocalizedTitleOrDefault(keyPath: string): string {
+    return keyPath !== TitleService.defaultTitleKey
+      ? this.translateWrapped(keyPath)
+      : this._l10n.translate.translate(TitleService.defaultTitleKey);
   }
 
-  setWrappedLocalizedTitle(keyPath: string): Observable<boolean> {
+  setWrappedLocalizedTitle(keyPath: string): boolean {
     this._titleKey = keyPath;
-    const changed$ = this.getWrappedLocalizedTitleOrDefault(this._titleKey).pipe(
-      map(title => {
-        // console.log(title);
-        try {
-          this.title.setTitle(title);
-          this._onTitleChange.next(title);
-          return true;
-        } catch (err) {
-          console.error('Error when setting title', err);
-          return false;
-        }
-      }),
-    );
-    return changed$;
+    try {
+      const title = this.getWrappedLocalizedTitleOrDefault(this._titleKey);
+      this.title.setTitle(title);
+      this._onTitleChange.next(title);
+      return true;
+    } catch (err) {
+      console.error('Error when setting title', err);
+      return false;
+    }
+  }
+
+  protected translateWrapped(keyPath: string) {
+    const translation = this._l10n.translate.translate(keyPath);
+    return translation && translation !== keyPath ? this._l10n.translate.translate('titles.template', {
+      title: translation,
+    }) : this._l10n.translate.translate(TitleService.defaultTitleKey);
   }
 }

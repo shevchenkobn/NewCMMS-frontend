@@ -61,16 +61,10 @@ export class AuthService {
   }
 
   getAccessToken() {
-    if (!this._accessToken) {
-      this.setAccessTokenMembers();
-    }
     return this._accessToken;
   }
 
   isAccessTokenExpired() {
-    if (!this._accessToken) {
-      this.setAccessTokenMembers();
-    }
     return !this._accessTokenExpiration || Date.now() < this._accessTokenExpiration.getTime();
   }
 
