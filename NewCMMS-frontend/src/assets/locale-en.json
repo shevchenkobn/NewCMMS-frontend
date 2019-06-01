@@ -99,6 +99,12 @@
       "errors": {
         "delete-not-allowed": "The user cannot be deleted"
       }
+    },
+    "create": {
+      "submit": "Create user"
+    },
+    "update": {
+      "submit": "Update user"
     }
   }
 }
