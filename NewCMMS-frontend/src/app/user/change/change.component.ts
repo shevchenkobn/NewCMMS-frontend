@@ -173,7 +173,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  getUserFromForm(): Partial<IUserChange> | IUserChange {
+  protected getUserFromForm(): Partial<IUserChange> | IUserChange {
     if (!this.user) {
       return {
         email: this.controls.email.value,

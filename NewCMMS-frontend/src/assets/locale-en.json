@@ -129,7 +129,7 @@
       "status": "Status is required",
       "hourly-rate": "Hourly rate must be a non-negative decimal number",
       "not-found": "The action device is not found (was deleted previously)",
-      "email-dup": "There exists action device with such physical address",
+      "physical-address-dup": "There exists action device with such physical address",
       "name-dup": "There exists action device with such name"
     },
     "list": {

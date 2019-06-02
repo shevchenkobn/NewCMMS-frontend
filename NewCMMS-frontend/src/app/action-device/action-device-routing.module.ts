@@ -5,6 +5,8 @@ import { AuthGuard } from '../shared/auth/auth.guard';
 import { UserRoles } from '../shared/models/user.model';
 import { ListComponent } from './list/list.component';
 import { ActionDevicesResolver } from './resolvers/action-devices.resolver';
+import { ChangeComponent } from './change/change.component';
+import { ActionDeviceResolver } from './resolvers/action-device.resolver';
 
 const routes: Routes = [
   {
@@ -17,6 +19,15 @@ const routes: Routes = [
         resolve: { actionDevices: ActionDevicesResolver },
         component: ListComponent,
       },
+      {
+        path: ChangeComponent.createRoute,
+        component: ChangeComponent,
+      },
+      {
+        path: ChangeComponent.updateRoute,
+        resolve: { actionDevice: ActionDeviceResolver },
+        component: ChangeComponent,
+      }
     ],
   }
 ];

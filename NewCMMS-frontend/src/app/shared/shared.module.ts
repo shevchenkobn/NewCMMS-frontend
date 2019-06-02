@@ -8,6 +8,7 @@ import { MaterialModule } from '../material/material.module';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { LocalizationModule, TranslationModule } from 'angular-l10n';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LocalizationModule, TranslationModule } from 'angular-l10n';
     // BrowserAnimationsModule,
     TranslationModule,
     LocalizationModule,
+    TextMaskModule,
 
     MaterialModule,
     ProgressBarComponent,

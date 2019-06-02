@@ -8,6 +8,7 @@ import { Nullable } from '../@types';
 import { Language } from 'angular-l10n';
 import { LoginComponent } from '../login/login.component';
 import { ListComponent as UserListComponent } from '../user/list/list.component';
+import { ListComponent as ActionDeviceListComponent } from '../action-device/list/list.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     users: UserListComponent.getAbsoluteRoute(),
     identity: 'identity/',
     triggerDevices: 'trigger-devices/',
-    actionDevices: 'action-devices/',
+    actionDevices: ActionDeviceListComponent.getAbsoluteRoute(),
     bills: 'bills/',
   };
   locales = Object.entries({

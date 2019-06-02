@@ -13,7 +13,7 @@
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
-     [routerLink]="[routerLinks.actionDevices]">
+     [routerLink]="routerLinks.actionDevices">
     <mat-icon mat-list-icon>devices</mat-icon>
     <span>{{ 'nav.actionDevices' | translate:activeLang }}</span>
   </a>

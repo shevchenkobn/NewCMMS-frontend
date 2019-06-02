@@ -17,7 +17,7 @@
              [routerLink]="[routerLinks.create]"
              [class.disabled]="isMakingRequest"
              [disabled]="isMakingRequest">
-            <mat-icon>person_add</mat-icon>
+            <mat-icon>add_circle</mat-icon>
           </a>
         </div>
       </mat-toolbar-row>
@@ -32,9 +32,11 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef translate>action-device.labels.status</th>
           <td mat-cell *matCellDef="let actionDevice">
-            <mat-chip color="primary" selected disableRipple [color]="getStatusChipColor(actionDevice.status)">
-              {{'user.roles.' + actionDeviceStatus[actionDevice.status] | translate:lang}}
-            </mat-chip>
+            <mat-chip-list>
+              <mat-chip color="primary" selected disableRipple [color]="getStatusChipColor(actionDevice.status)">
+                {{'action-device.status.' + actionDeviceStatus[actionDevice.status] | translate:lang}}
+              </mat-chip>
+            </mat-chip-list>
           </td>
         </ng-container>
         <ng-container matColumnDef="name">

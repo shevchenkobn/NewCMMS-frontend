@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/server-error-utils';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Nullable } from '../../@types';
+import { ChangeComponent } from '../change/change.component';
 
 @Component({
   selector: 'app-list',
@@ -28,10 +29,8 @@ export class ListComponent implements OnInit, OnDestroy {
   actionDeviceStatus = ActionDeviceStatus;
   columnsToDisplay: ReadonlyArray<string>;
   routerLinks = {
-    create: 'create',
-    getEditRoute(actionDeviceId: number) {
-      return [actionDeviceId, 'edit'];
-    },
+    create: ChangeComponent.createRoute,
+    getEditRoute: ChangeComponent.getUpdateRoute,
   };
   protected _langChanged$!: Subscription;
   protected _actionDevices: ActionDevicesService;

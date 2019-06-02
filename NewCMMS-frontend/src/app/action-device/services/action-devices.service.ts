@@ -9,7 +9,7 @@ import { Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class ActionDevicesService {
-  public static readonly ACTION_DEVICES_BASE = 'users/';
+  public static readonly ACTION_DEVICES_BASE = 'action-devices/';
   public static readonly PARAMS: Readonly<{ [name: string]: string | string[] }> = {
     'select': (
       ['actionDeviceId', 'physicalAddress', 'name', 'type', 'status', 'hourlyRate'] as ReadonlyArray<keyof IActionDevice>
