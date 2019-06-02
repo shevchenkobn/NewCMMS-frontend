@@ -21,7 +21,8 @@
                        name="status"
                        class="fit-parent-width">
         <mat-radio-button *ngFor="let statusName of actionDeviceStatusNames"
-                          [value]="actionDeviceStatus[statusName]">
+                          [value]="actionDeviceStatus[statusName]"
+                          class="fit-parent-width padding-05">
           {{'action-device.status.' + statusName | translate:lang}}
         </mat-radio-button>
       </mat-radio-group>
