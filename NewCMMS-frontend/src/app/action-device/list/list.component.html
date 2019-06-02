@@ -35,6 +35,7 @@
             <mat-chip-list>
               <mat-chip color="primary"
                         disableRipple
+                        [selectable]="false"
                         [selected]="actionDevice.status !== actionDeviceStatus.DISCONNECTED"
                         [color]="getStatusChipColor(actionDevice.status)">
                 {{'action-device.status.' + actionDeviceStatus[actionDevice.status] | translate:lang}}

@@ -39,7 +39,11 @@
           <td mat-cell *matCellDef="let user; let i = index;">
             <mat-chip-list mat-line>
               <ng-container *ngFor="let roleName of roleNames">
-                <mat-chip *ngIf="userRoles[i][roleName]" color="primary" selected disableRipple>
+                <mat-chip *ngIf="userRoles[i][roleName]"
+                          color="primary"
+                          selected
+                          disableRipple
+                          [selectable]="false">
                   {{'user.roles.' + roleName | translate:lang}}
                 </mat-chip>
               </ng-container>
