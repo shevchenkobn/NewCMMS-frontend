@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LoginComponent } from './login/login.component';
 
 export const usersBaseRoute = 'users';
+export const actionDevicesBaseRoute = 'action-devices';
 
 const routes: Routes = [
   { path: LoginComponent.route, component: LoginComponent, pathMatch: 'full' },
@@ -30,6 +31,7 @@ export function errorHandler(err: any) {
     onSameUrlNavigation: 'reload',
     scrollPositionRestoration: 'enabled',
     relativeLinkResolution: 'corrected',
+    enableTracing: false,
   })],
   exports: [RouterModule]
 })

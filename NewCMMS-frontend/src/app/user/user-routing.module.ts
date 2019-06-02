@@ -7,6 +7,7 @@ import { UsersResolver } from './resolvers/users.resolver';
 import { usersBaseRoute } from '../app-routing.module';
 import { ChangeComponent } from './change/change.component';
 import { UserResolver } from './resolvers/user.resolver';
+import { UserRoles } from '../shared/models/user.model';
 
 export const routes: Routes = [
   {
@@ -23,11 +24,15 @@ export const routes: Routes = [
       {
         path: ChangeComponent.createRoute,
         // canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+        data: { authRoles: UserRoles.ADMIN },
         component: ChangeComponent,
       },
       {
         path: ChangeComponent.updateRoute,
         // canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+        data: { authRoles: UserRoles.ADMIN },
         resolve: { user: UserResolver },
         component: ChangeComponent,
       }

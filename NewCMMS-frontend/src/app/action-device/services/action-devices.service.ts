@@ -8,7 +8,7 @@ import { Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ActionDeviceService {
+export class ActionDevicesService {
   public static readonly ACTION_DEVICES_BASE = 'users/';
   public static readonly PARAMS: Readonly<{ [name: string]: string | string[] }> = {
     'select': (
@@ -23,7 +23,7 @@ export class ActionDeviceService {
   }
 
   getActionDevices() {
-    return this._http.get<{ actionDevices: IActionDevice[] }>(ActionDeviceService.ACTION_DEVICES_BASE).pipe(
+    return this._http.get<{ actionDevices: IActionDevice[] }>(ActionDevicesService.ACTION_DEVICES_BASE).pipe(
       map(devices => devices.actionDevices),
     );
   }
@@ -34,9 +34,9 @@ export class ActionDeviceService {
     } catch (err) {
       return throwError(err);
     }
-    return this._http.get<IActionDevice>(ActionDeviceService.ACTION_DEVICES_BASE + actionDeviceId.toString(), {
+    return this._http.get<IActionDevice>(ActionDevicesService.ACTION_DEVICES_BASE + actionDeviceId.toString(), {
       params: {
-        ...ActionDeviceService.PARAMS,
+        ...ActionDevicesService.PARAMS,
       }
     });
   }
@@ -45,10 +45,10 @@ export class ActionDeviceService {
   createActionDevice(actionDevice: IActionDeviceChange, returnActionDevice: true): Observable<IActionDevice>;
   createActionDevice(actionDevice: IActionDeviceChange, returnActionDevice = false) {
     const params = returnActionDevice ? {
-      ...ActionDeviceService.PARAMS,
+      ...ActionDevicesService.PARAMS,
     } : {};
     return this._http.post<IActionDevice | null>(
-      ActionDeviceService.ACTION_DEVICES_BASE,
+      ActionDevicesService.ACTION_DEVICES_BASE,
       actionDevice,
       {
         params,
@@ -69,10 +69,10 @@ export class ActionDeviceService {
       return throwError(err);
     }
     const params = returnActionDevice ? {
-      ...ActionDeviceService.PARAMS,
+      ...ActionDevicesService.PARAMS,
     } : {};
     return this._http.patch<IActionDevice | null>(
-      ActionDeviceService.ACTION_DEVICES_BASE + actionDeviceId.toString(),
+      ActionDevicesService.ACTION_DEVICES_BASE + actionDeviceId.toString(),
       actionDevice,
       {
         params,
@@ -89,10 +89,10 @@ export class ActionDeviceService {
       return throwError(err);
     }
     const params = returnActionDevice ? {
-      ...ActionDeviceService.PARAMS,
+      ...ActionDevicesService.PARAMS,
     } : {};
     return this._http.delete<IActionDevice | null>(
-      ActionDeviceService.ACTION_DEVICES_BASE + actionDeviceId.toString(),
+      ActionDevicesService.ACTION_DEVICES_BASE + actionDeviceId.toString(),
       {
         params,
       },

@@ -1,21 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UsersService } from '../services/users.service';
+import { actionDevicesBaseRoute } from '../../app-routing.module';
+import { Language } from 'angular-l10n';
+import { ActionDeviceStatus, IActionDevice } from '../../shared/models/action-device.model';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
-import { IUser, superUserId, userRoleNames, UserRoles, userRoleToObject } from '../../shared/models/user.model';
+import { ActionDevicesService } from '../services/action-devices.service';
+import { TitleService } from '../../title.service';
+import { ActionDevicesResolver } from '../resolvers/action-devices.resolver';
 import { finalize, switchMap } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/server-error-utils';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
-import { Language } from 'angular-l10n';
-import { Subscription } from 'rxjs';
-import { ProfileResolver } from '../../shared/auth/identity.resolver';
-import { UsersResolver } from '../resolvers/users.resolver';
-import { usersBaseRoute } from '../../app-routing.module';
-import { TitleService } from '../../title.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Nullable } from '../../@types';
-import { ChangeComponent } from '../change/change.component';
 
 @Component({
   selector: 'app-list',
@@ -24,73 +22,80 @@ import { ChangeComponent } from '../change/change.component';
 })
 export class ListComponent implements OnInit, OnDestroy {
   static readonly route = '';
-  readonly superUserId = superUserId;
   @Language() lang: string;
-  currentUser!: IUser;
   isMakingRequest: boolean;
-  roleNames = userRoleNames;
-  users!: IUser[];
-  userRoles!: ({ [role: string]: boolean })[];
-  columnsToDisplay!: ReadonlyArray<string>;
+  actionDevices!: IActionDevice[];
+  actionDeviceStatus = ActionDeviceStatus;
+  columnsToDisplay: ReadonlyArray<string>;
   routerLinks = {
-    create: ChangeComponent.createRoute,
-    getEditRoute: ChangeComponent.getUpdateRoute,
-    userTriggerHistory: 'trigger-history'
+    create: 'create',
+    getEditRoute(actionDeviceId: number) {
+      return [actionDeviceId, 'edit'];
+    },
   };
   protected _langChanged$!: Subscription;
-  protected _users: UsersService;
+  protected _actionDevices: ActionDevicesService;
   protected _route: ActivatedRoute;
   protected _dialog: MatDialog;
   protected _snackBar: MatSnackBar;
   protected _l10n: L10nService;
 
   constructor(
-    users: UsersService,
+    actionDevices: ActionDevicesService,
     route: ActivatedRoute,
     dialog: MatDialog,
     snackBar: MatSnackBar,
     l10n: L10nService,
     title: TitleService,
   ) {
-    this._users = users;
+    this._actionDevices = actionDevices;
     this._route = route;
     this._dialog = dialog;
     this._snackBar = snackBar;
     this._l10n = l10n;
     this.lang = this._l10n.locale.getCurrentLanguage();
-    title.setWrappedLocalizedTitle('titles.users.list');
+    title.setWrappedLocalizedTitle('titles.action-devices.list');
+    this.columnsToDisplay = ['physicalAddress', 'status', 'name', 'type', 'hourlyRate', 'edit', 'delete'];
     this.isMakingRequest = false;
   }
 
   static getAbsoluteRoute() {
-    return [usersBaseRoute];
+    return [actionDevicesBaseRoute];
+  }
+
+  getStatusChipColor(status: ActionDeviceStatus) {
+    switch (status) {
+      case ActionDeviceStatus.DISCONNECTED:
+        return null;
+      case ActionDeviceStatus.CONNECTED:
+        return 'primary';
+      case ActionDeviceStatus.ONLINE:
+        return 'accent';
+    }
   }
 
   refresh() {
-    this._users.getUsers().pipe(
+    this._actionDevices.getActionDevices().pipe(
       finalize(() => {
         this.isMakingRequest = false;
       }),
     ).subscribe(
-      users => this.saveUsers(users),
+      actionDevices => this.actionDevices = actionDevices,
       err => {
-        console.error('User refresh error', err);
+        console.error('Action device refresh error', err);
         this._snackBar.dismiss();
         const msg = err instanceof HttpErrorResponse && getCommonErrorMessage(err) || 'errors.unknown';
         const translations = this._l10n.translate.translate([msg, 'dialog.ok']);
         this._snackBar.open(translations[msg], translations['dialog.ok']);
-      }
+      },
     );
     this.isMakingRequest = true;
   }
 
-  deleteUser(userId: number) {
-    if (!(this.currentUser.role & UserRoles.ADMIN) || userId === this.currentUser.userId || userId === this.superUserId) {
-      return;
-    }
+  deleteActionDevice(actionDeviceId: number) {
     this._dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'user.delete.question'
+        message: 'action-device.delete.question'
       },
       autoFocus: false
     }).afterClosed().subscribe(yes => {
@@ -98,19 +103,19 @@ export class ListComponent implements OnInit, OnDestroy {
         return;
       }
       this.isMakingRequest = true;
-      this._users.deleteUser(userId).pipe(
+      this._actionDevices.deleteActionDevice(actionDeviceId).pipe(
         switchMap(() => {
-          return this._users.getUsers();
+          return this._actionDevices.getActionDevices();
         }),
         finalize(() => {
           this.isMakingRequest = false;
         }),
       ).subscribe(
-        (users) => {
-          this.saveUsers(users);
-          const translations = this._l10n.translate.translate(['user.delete.done', 'dialog.ok']);
+        (actionDevices) => {
+          this.actionDevices = actionDevices;
+          const translations = this._l10n.translate.translate(['action-device.delete.done', 'dialog.ok']);
           this._snackBar.dismiss();
-          this._snackBar.open(translations['user.delete.done'], translations['dialog.ok']);
+          this._snackBar.open(translations['action-device.delete.done'], translations['dialog.ok']);
         },
         (err: any) => {
           let msg: Nullable<string> = null;
@@ -118,9 +123,7 @@ export class ListComponent implements OnInit, OnDestroy {
             if (isClientHttpError(err)) {
               const code = err.error.code as ServerErrorCode;
               if (code === ServerErrorCode.NOT_FOUND) {
-                msg = 'user.errors.not-found';
-              } else if (code === ServerErrorCode.AUTH_ROLE) {
-                msg = 'user.delete.errors.delete-not-allowed';
+                msg = 'action-device.errors.not-found';
               }
             }
             if (!msg) {
@@ -140,11 +143,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._langChanged$ = this._l10n.languageCodeChangedLoadFinished.subscribe(lang => this.lang = lang);
-    this.saveUsers(this._route.snapshot.data[UsersResolver.propName] as IUser[]);
-    this.currentUser = this._route.snapshot.data[ProfileResolver.propName];
-    this.columnsToDisplay = this.currentUser.role & UserRoles.ADMIN
-      ? ['name', 'email', 'role', 'userTriggerHistory', 'edit', 'delete']
-      : ['name', 'email', 'role'];
+    this.actionDevices = this._route.snapshot.data[ActionDevicesResolver.propName];
   }
 
   ngOnDestroy() {
@@ -152,8 +151,4 @@ export class ListComponent implements OnInit, OnDestroy {
     this._langChanged$.unsubscribe();
   }
 
-  saveUsers(users: IUser[]) {
-    this.users = users;
-    this.userRoles = users.map(userRoleToObject);
-  }
 }

@@ -18,7 +18,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  static readonly ROLE_DATA_PROPERTY = 'authRoles';
+  static readonly roleDataProp = 'authRoles';
   protected _auth: AuthService;
   protected _router: Router;
 
@@ -52,15 +52,15 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       }
       return false;
     }
-    const requiredRoles = (next.data || {})[AuthGuard.ROLE_DATA_PROPERTY] as UserRoles | undefined;
+    const requiredRoles = (next.data || {})[AuthGuard.roleDataProp] as UserRoles | undefined;
     if (typeof requiredRoles !== 'number') {
       return true;
     }
     if (this._auth.hasUser()) {
-      return this.checkRole(this._auth.getUser(), requiredRoles);
+      return this.checkRoleOrRedirect(this._auth.getUser(), requiredRoles);
     }
     return this._auth.refreshUser().pipe(
-      map(user => this.checkRole(user, requiredRoles)),
+      map(user => this.checkRoleOrRedirect(user, requiredRoles)),
     );
   }
 
@@ -80,11 +80,34 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     });
   }
 
-  private checkRole(user: IUser, requiredRoles: UserRoles) {
-    if (user.role & requiredRoles) {
+  private checkRoleOrRedirect(user: IUser, requiredRoles: UserRoles | ReadonlyArray<UserRoles>) {
+    if (typeof requiredRoles === 'number') {
+      const result = this.checkRole(user, requiredRoles);
+      if (!result) {
+        this.navigate('/');
+        return false;
+      }
+      return true;
+    } else {
+      const result = this.checkRoles(user, requiredRoles);
+      if (!result) {
+        this.navigate('/');
+        return false;
+      }
       return true;
     }
-    this.navigate('/');
+  }
+
+  private checkRole(user: IUser, requiredRoles: UserRoles) {
+    return !!(user.role & requiredRoles);
+  }
+
+  private checkRoles(user: IUser, requiredRoles: ReadonlyArray<UserRoles>) {
+    for (const role of requiredRoles) {
+      if (this.checkRole(user, role)) {
+        return true;
+      }
+    }
     return false;
   }
 }

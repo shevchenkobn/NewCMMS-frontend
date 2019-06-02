@@ -12,20 +12,20 @@
       "update": "Update user",
       "delete": "Delete user"
     },
-    "triggerDevices": {
+    "trigger-devices": {
       "list": "Trigger devices",
       "details": "Trigger device",
       "create": "Create trigger device",
       "update": "Update trigger device",
       "delete": "Delete trigger device"
     },
-    "actionDevices": {
+    "action-devices": {
       "list": "Action devices",
       "create": "Create action device",
       "update": "Update action device",
       "delete": "Delete action device"
     },
-    "userTriggerHistory": {
+    "user-trigger-history": {
       "list": "User trigger history",
       "delete": "Delete user trigger"
     },
@@ -131,6 +131,9 @@
       "not-found": "The action device is not found (was deleted previously)",
       "email-dup": "There exists action device with such physical address",
       "name-dup": "There exists action device with such name"
+    },
+    "list": {
+      "empty": "No action devices found"
     },
     "delete": {
       "question": "Delete action device?",

@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginComponent } from './login/login.component';
 import { UserModule } from './user/user.module';
+import { ActionDeviceModule } from './action-device/action-device.module';
 
 export function onAppInitProvider(l10nService: L10nService) {
   return () => {
@@ -30,6 +31,7 @@ export function onAppInitProvider(l10nService: L10nService) {
     SharedModule,
     getModuleWithProviders(),
     UserModule,
+    ActionDeviceModule,
     AppRoutingModule, // it should be last
   ],
   providers: [

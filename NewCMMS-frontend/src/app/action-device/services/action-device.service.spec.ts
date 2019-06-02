@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ActionDeviceService } from './action-device.service';
+import { ActionDevicesService } from './action-devices.service';
 
-describe('ActionDeviceService', () => {
+describe('ActionDevicesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ActionDeviceService = TestBed.get(ActionDeviceService);
+    const service: ActionDevicesService = TestBed.get(ActionDevicesService);
     expect(service).toBeTruthy();
   });
 });
