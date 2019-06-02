@@ -109,6 +109,42 @@
       "done": "The user was updated"
     }
   },
+  "action-device": {
+    "labels": {
+      "physical-address": "Physical address",
+      "name": "Device name",
+      "type": "Device type",
+      "status": "Status",
+      "hourly-rate": "Rate per hour"
+    },
+    "status": {
+      "CONNECTED": "Connected",
+      "ONLINE": "Online",
+      "DISCONNECTED": "Disconnected"
+    },
+    "errors": {
+      "physical-address": "Physical address must be unique, 12 hexadecimal number",
+      "name": "A unique name is required",
+      "type": "Type is required",
+      "status": "Status is required",
+      "hourly-rate": "Hourly rate must be a non-negative decimal number",
+      "not-found": "The action device is not found (was deleted previously)",
+      "email-dup": "There exists action device with such physical address",
+      "name-dup": "There exists action device with such name"
+    },
+    "delete": {
+      "question": "Delete action device?",
+      "done": "Action device was deleted"
+    },
+    "create": {
+      "submit": "Create action device",
+      "done": "The action device was created"
+    },
+    "update": {
+      "submit": "Update action device",
+      "done": "The action device was updated"
+    }
+  },
   "buttons": {
     "cancel": "Cancel"
   }
