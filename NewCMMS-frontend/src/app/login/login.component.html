@@ -2,8 +2,10 @@
   <mat-card>
     <mat-card-title translate>titles.login</mat-card-title>
     <mat-card-subtitle [innerHTML]="'login-page.redirect' | translate:lang:redirectWrap"></mat-card-subtitle>
-    <mat-card-content class="app-progress-bar-container">
-      <app-progress-bar [show]="isSendingRequest"></app-progress-bar>
+    <mat-card-header class="app-progress-bar-container">
+      <app-progress-bar [show]="isMakingRequest"></app-progress-bar>
+    </mat-card-header>
+    <mat-card-content>
       <mat-form-field appearance="standard" class="fit-parent-width">
         <mat-label translate>login-page.labels.login</mat-label>
         <input matInput
@@ -11,7 +13,7 @@
                required="required"
                formControlName="email"
                name="email"/>
-        <mat-error *ngIf="controls.email.errors" translate>login-page.error.email</mat-error>
+        <mat-error *ngIf="controls.email.invalid" translate>login-page.error.email</mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard" class="fit-parent-width">
         <mat-label translate>login-page.labels.password</mat-label>
@@ -20,15 +22,15 @@
                required="required"
                formControlName="password"
                name="password"/>
-        <mat-error *ngIf="controls.password.errors" translate>login-page.error.password</mat-error>
+        <mat-error *ngIf="controls.password.invalid" translate>login-page.error.password</mat-error>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary"
-              [disabled]="isSendingRequest || form.invalid"
+              [disabled]="isMakingRequest || form.invalid"
               (click)="submit()">{{ 'login-page.submit' | translate:lang }}</button>
     </mat-card-actions>
   </mat-card>
 </form>
 
-<!--[disabled]="isSendingRequest || form.invalid || form.pristine"-->
+<!--[disabled]="isMakingRequest || form.invalid || form.pristine"-->

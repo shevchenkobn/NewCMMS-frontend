@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { ServerErrorCode } from '../http/error-codes';
+import { ServerErrorCode } from '../http/server-error-utils';
 import { Router } from '@angular/router';
 import { BaseUrlInterceptor } from '../http/base-url.interceptor';
 import { LoginComponent } from '../../login/login.component';

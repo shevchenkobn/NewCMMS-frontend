@@ -6,7 +6,7 @@ import { AuthService } from '../shared/auth/auth.service';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { Language } from 'angular-l10n';
 import { finalize } from 'rxjs/operators';
-import { isClientHttpError } from '../shared/http/error-codes';
+import { isClientHttpError } from '../shared/http/server-error-utils';
 import { Subscription } from 'rxjs';
 import { TitleService } from '../title.service';
 
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   redirectWrap = {
     redirect: '',
   };
-  public isSendingRequest = false;
+  public isMakingRequest = false;
   form!: FormGroup;
   protected _fb: FormBuilder;
   protected _auth: AuthService;
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.form.controls.password.value,
     ).pipe(
       finalize(() => {
-        this.isSendingRequest = false;
+        this.isMakingRequest = false;
         this.form.enable({onlySelf: false, emitEvent: true});
       })
     ).subscribe(
@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
     this.form.disable({onlySelf: false, emitEvent: true});
     this.form.controls.password.setValue('');
-    this.isSendingRequest = true;
+    this.isMakingRequest = true;
   }
 
   protected setRedirectMessage() {
@@ -118,5 +118,3 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 }
-
-// Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$/)

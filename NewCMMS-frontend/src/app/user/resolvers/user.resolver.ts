@@ -5,13 +5,16 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { UsersService } from '../services/users.service';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { isClientHttpError } from '../../shared/http/error-codes';
+import { isClientHttpError } from '../../shared/http/server-error-utils';
 import { getFullPath } from '../../shared/utils';
+import { PageNotFoundComponent } from '../../page-not-found/page-not-found.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserResolver implements Resolve<IUser> {
+  static readonly propName = 'user';
+  static readonly paramName = 'userId';
   protected _users: UsersService;
   protected _router: Router;
 
@@ -24,10 +27,10 @@ export class UserResolver implements Resolve<IUser> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<IUser> | Promise<IUser> | IUser {
-    return this._users.getUser(route.params['id']).pipe(
+    return this._users.getUser(route.params[UserResolver.paramName]).pipe(
       catchError((err: any) => {
         if (isClientHttpError(err) && (err.status === 404 || err.status === 400)) {
-          this._router.navigate(['not-found'], {
+          this._router.navigate([PageNotFoundComponent.dedicatedRoute], {
               queryParams: {
                 url: getFullPath(route.pathFromRoot, false)
               }

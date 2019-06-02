@@ -101,10 +101,15 @@
       }
     },
     "create": {
-      "submit": "Create user"
+      "submit": "Create user",
+      "done": "The user was created"
     },
     "update": {
-      "submit": "Update user"
+      "submit": "Update user",
+      "done": "The user was updated"
     }
+  },
+  "buttons": {
+    "cancel": "Cancel"
   }
 }

@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Nullable } from '../../@types';
 
 export enum ServerErrorCode {
   JSON_BAD = 'JSON_BAD',
@@ -63,4 +64,20 @@ export function getCommonErrorMessage(err: HttpErrorResponse) {
     return 'errors.network';
   }
   return '';
+}
+
+export function getUserUpdateOrCreateErrorMessage(err: any) {
+  if (err instanceof HttpErrorResponse) {
+    switch (err.error.code as string) {
+      case ServerErrorCode.USER_EMAIL_DUPLICATE:
+        return 'user.errors.email-dup';
+      case ServerErrorCode.NOT_FOUND:
+        return 'user.errors.not-found';
+    }
+    const msg = getCommonErrorMessage(err);
+    if (msg) {
+      return msg;
+    }
+  }
+  return 'errors.unknown';
 }

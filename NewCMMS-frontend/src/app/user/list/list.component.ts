@@ -5,7 +5,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
 import { IUser, superUserId, userRoleNames, UserRoles, userRoleToObject } from '../../shared/models/user.model';
 import { finalize, switchMap } from 'rxjs/operators';
-import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/error-codes';
+import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/server-error-utils';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Language } from 'angular-l10n';
 import { Subscription } from 'rxjs';
@@ -13,12 +13,12 @@ import { ProfileResolver } from '../../shared/auth/identity.resolver';
 import { UsersResolver } from '../resolvers/users.resolver';
 import { usersBaseRoute } from '../../app-routing.module';
 import { TitleService } from '../../title.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Nullable } from '../../@types';
+import { ChangeComponent } from '../change/change.component';
 
 @Component({
   selector: 'app-list',
-  host: {
-    class: 'fit-parent-height',
-  },
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
@@ -32,9 +32,9 @@ export class ListComponent implements OnInit, OnDestroy {
   users!: IUser[];
   userRoles!: ({ [role: string]: boolean })[];
   columnsToDisplay!: ReadonlyArray<string>;
-  routerLinks = { // FIXME: user static constants
-    create: 'create',
-    edit: 'edit',
+  routerLinks = {
+    create: ChangeComponent.createRoute,
+    getEditRoute: ChangeComponent.getUpdateRoute,
     userTriggerHistory: 'trigger-history'
   };
   protected _langChanged$!: Subscription;
@@ -59,6 +59,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this._l10n = l10n;
     this.lang = this._l10n.locale.getCurrentLanguage();
     title.setWrappedLocalizedTitle('titles.users.list');
+    this.isMakingRequest = false;
   }
 
   static getAbsoluteRoute() {
@@ -76,7 +77,7 @@ export class ListComponent implements OnInit, OnDestroy {
       err => {
         console.error('User refresh error', err);
         this._snackBar.dismiss();
-        const msg = getCommonErrorMessage(err) || 'errors.unknown';
+        const msg = err instanceof HttpErrorResponse && getCommonErrorMessage(err) || 'errors.unknown';
         const translations = this._l10n.translate.translate([msg, 'dialog.ok']);
         this._snackBar.open(translations[msg], translations['dialog.ok']);
       }
@@ -112,15 +113,17 @@ export class ListComponent implements OnInit, OnDestroy {
           this._snackBar.open(translations['user.delete.done'], translations['dialog.ok']);
         },
         (err: any) => {
-          let msg: string;
-          msg = getCommonErrorMessage(err);
-          if (isClientHttpError(err)) {
-            const code = err.error.code as ServerErrorCode;
-            if (code === ServerErrorCode.NOT_FOUND) {
-              msg = 'user.errors.not-found';
-            } else if (code === ServerErrorCode.AUTH_ROLE) {
-              msg = 'user.delete.errors.delete-not-allowed';
-            } else {
+          let msg: Nullable<string> = null;
+          if (err instanceof HttpErrorResponse) {
+            if (isClientHttpError(err)) {
+              const code = err.error.code as ServerErrorCode;
+              if (code === ServerErrorCode.NOT_FOUND) {
+                msg = 'user.errors.not-found';
+              } else if (code === ServerErrorCode.AUTH_ROLE) {
+                msg = 'user.delete.errors.delete-not-allowed';
+              }
+            }
+            if (!msg) {
               msg = getCommonErrorMessage(err);
             }
           }
@@ -142,7 +145,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.columnsToDisplay = this.currentUser.role & UserRoles.ADMIN
       ? ['name', 'email', 'role', 'userTriggerHistory', 'edit', 'delete']
       : ['name', 'email', 'role'];
-    this.isMakingRequest = false;
   }
 
   ngOnDestroy() {
