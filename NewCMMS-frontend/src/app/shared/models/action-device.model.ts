@@ -20,5 +20,5 @@ export interface IActionDevice extends IActionDeviceChange {
 }
 
 export const actionDeviceStatusNames = Object.keys(ActionDeviceStatus).filter(
-  r => Number.isNaN(Number.parseInt(r, 10))
+  s => Number.isNaN(Number.parseInt(s, 10))
 );
