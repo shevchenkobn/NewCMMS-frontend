@@ -29,12 +29,6 @@
 <!--    <mat-icon mat-list-icon>account_circle</mat-icon>-->
 <!--    <span>{{ 'nav.profile' | translate:activeLang }}</span>-->
 <!--  </a>-->
-<!--  <a mat-list-item-->
-<!--     *ngIf="isLoggedIn && hasRole(userRoles.EMPLOYEE)"-->
-<!--     [routerLink]="['/home/drones']">-->
-<!--    <mat-icon mat-list-icon>flight_takeoff</mat-icon>-->
-<!--    <span>{{ 'nav.my-drones' | translate }}</span>-->
-<!--  </a>-->
   <a mat-list-item
      [routerLink]="routerLinks.users"
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)">

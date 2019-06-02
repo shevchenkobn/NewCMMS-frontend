@@ -8,7 +8,7 @@ import { usersBaseRoute } from '../app-routing.module';
 import { ChangeComponent } from './change/change.component';
 import { UserResolver } from './resolvers/user.resolver';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: usersBaseRoute,
     canActivateChild: [AuthGuard],
@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: ListComponent.route,
         // canLoad: [AuthGuard],
-        resolve: { [ProfileResolver.propName]: ProfileResolver, [UsersResolver.propName]: UsersResolver },
+        resolve: { identity: ProfileResolver, users: UsersResolver },
         component: ListComponent,
       },
       {
@@ -28,9 +28,9 @@ const routes: Routes = [
       {
         path: ChangeComponent.updateRoute,
         // canLoad: [AuthGuard],
-        resolve: { [UserResolver.propName]: UserResolver },
+        resolve: { user: UserResolver },
         component: ChangeComponent,
-      },
+      }
     ],
   },
 ];

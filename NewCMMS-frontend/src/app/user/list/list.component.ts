@@ -63,7 +63,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   static getAbsoluteRoute() {
-    return [usersBaseRoute, this.route];
+    return [usersBaseRoute];
   }
 
   refresh() {

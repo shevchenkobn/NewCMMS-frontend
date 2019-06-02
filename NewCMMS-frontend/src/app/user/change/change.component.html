@@ -17,34 +17,45 @@
         <mat-label translate>user.labels.password</mat-label>
         <input matInput
                type="password"
-               required="required"
+               [required]="!user"
                formControlName="password"
                name="password"/>
-        <mat-error *ngIf="controls.password.invalid" translate>password.change.no-password</mat-error>
+        <mat-error *ngIf="controls.password.invalid" translate>user.errors.password</mat-error>
       </mat-form-field>
-      <mat-chip-list mat-line>
-        <mat-chip *ngFor="let roleName of roleNames" [selected]="userRoles[roleName]" (selectionChange)="userRoles[roleName] = !userRoles[roleName]">
-          <!--[color]="userRoles[roleName] ? 'primary' : null"-->
+      <mat-chip-list mat-line [selectable]="true" [multiple]="true">
+        <mat-chip *ngFor="let roleName of roleNames"
+                  #chip="matChip"
+                  [selectable]="true"
+                  [selected]="userRoles[roleName]"
+                  [disabled]="form.disabled"
+                  (click)="form.enabled && chip.toggleSelected(true)"
+                  (selectionChange)="toggleRole(roleName, $event)">
           {{'user.roles.' + roleName | translate:lang}}
         </mat-chip>
+        <mat-error [style.visibility]="userRolesDirty && form.errors?.userRole ? 'visible' : 'hidden'" translate>
+          user.errors.role
+        </mat-error>
       </mat-chip-list>
       <mat-form-field class="fit-parent-width">
         <mat-label translate>user.labels.full-name</mat-label>
         <input matInput
                type="text"
                required="required"
-               formControlName="name"
-               name="name"/>
-        <mat-error *ngIf="controls.name.errors" translate>user.errors.full-name</mat-error>
+               formControlName="fullName"
+               name="fullName"/>
+        <mat-error *ngIf="controls.fullName.errors" translate>user.errors.full-name</mat-error>
       </mat-form-field>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions align="start">
       <button *ngIf="!user" mat-raised-button color="primary"
               [disabled]="!form.valid || isMakingRequest"
               (click)="create()">{{'user.create.submit' | translate:lang}}</button>
       <button *ngIf="user" mat-raised-button color="primary"
               [disabled]="!form.valid || isMakingRequest"
               (click)="update()">{{'user.update.submit' | translate:lang}}</button>
+      <button mat-button color="primary"
+              [disabled]="isMakingRequest"
+              (click)="goBack()">{{'buttons.cancel' | translate:lang}}</button>
     </mat-card-actions>
   </mat-card>
 </form>

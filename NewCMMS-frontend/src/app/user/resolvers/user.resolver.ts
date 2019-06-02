@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/operators';
 import { isClientHttpError } from '../../shared/http/server-error-utils';
 import { getFullPath } from '../../shared/utils';
 import { PageNotFoundComponent } from '../../page-not-found/page-not-found.component';
+import { AppError } from '../../shared/services/error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,21 +28,28 @@ export class UserResolver implements Resolve<IUser> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<IUser> | Promise<IUser> | IUser {
-    return this._users.getUser(route.params[UserResolver.paramName]).pipe(
+    return this._users.getUser(Number.parseInt(route.params[UserResolver.paramName], 10)).pipe(
       catchError((err: any) => {
         if (isClientHttpError(err) && (err.status === 404 || err.status === 400)) {
-          this._router.navigate([PageNotFoundComponent.dedicatedRoute], {
-              queryParams: {
-                url: getFullPath(route.pathFromRoot, false)
-              }
-            })
-            .catch(navError => {
-              console.error('From localUser resolve navigate', navError);
-            });
+          this.navigateToNotFound(route);
           return of(null as any);
+        }
+        if (err instanceof AppError) {
+          console.error('AppError in user resolver', err);
+          this.navigateToNotFound(route);
         }
         return throwError(err);
       }),
     );
+  }
+
+  protected navigateToNotFound(route: ActivatedRouteSnapshot) {
+    this._router.navigate([PageNotFoundComponent.dedicatedRoute], {
+      queryParams: {
+        url: getFullPath(route.pathFromRoot, false)
+      }
+    }).catch(navError => {
+      console.error('From user by id resolve navigate', navError);
+    });
   }
 }

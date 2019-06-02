@@ -2,15 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IUser, IUserChange, userRoleFromObject, userRoleNames, userRoleToObject } from '../../shared/models/user.model';
 import { Language } from 'angular-l10n';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 import { UsersService } from '../services/users.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatChipSelectionChange, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TitleService } from '../../title.service';
 import { userRoleValidator } from '../validators/user-role';
 import { userChangedValidator } from '../validators/user-changed';
-import { tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import {
   getUserUpdateOrCreateErrorMessage,
 } from '../../shared/http/server-error-utils';
@@ -23,7 +24,7 @@ import { UserResolver } from '../resolvers/user.resolver';
 })
 export class ChangeComponent implements OnInit, OnDestroy {
   static readonly createRoute = 'create';
-  static readonly updateRoute = `${UserResolver.paramName}/edit`;
+  static readonly updateRoute = `:${UserResolver.paramName}/edit`;
 
   @Language() lang: string;
   // title!: string;
@@ -33,6 +34,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   roleNames = userRoleNames;
   userRoles!: Record<string, boolean>;
+  userRolesDirty: boolean;
   protected _langChanged$!: Subscription;
   protected _users: UsersService;
   protected _fb: FormBuilder;
@@ -40,6 +42,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
   protected _snackBar: MatSnackBar;
   protected _l10n: L10nService;
   protected _title: TitleService;
+  protected _location: Location;
   protected _snackBarWithError: boolean;
 
   get controls() {
@@ -53,6 +56,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
     snackBar: MatSnackBar,
     l10n: L10nService,
     title: TitleService,
+    location: Location,
   ) {
     this._users = users;
     this._fb = formBuilder;
@@ -60,9 +64,12 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this._snackBar = snackBar;
     this._l10n = l10n;
     this._title = title;
+    this._location = location;
+
     this.lang = this._l10n.locale.getCurrentLanguage();
     this._snackBarWithError = false;
     this.isMakingRequest = false;
+    this.userRolesDirty = false;
   }
 
   static getUpdateRoute(userId: number) {
@@ -90,7 +97,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
       this.form = this._fb.group({
         email: [this.user.email, [Validators.required, Validators.email]],
         fullName: [this.user.fullName, [Validators.required]],
-        password: ['', [Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$/)]],
+        password: [null, [Validators.pattern(/^((?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}|)$/)]],
       }, { validators: [concreteUserRoleValidator, userChangedValidator(this.user, this.userRoles)] });
     }
   }
@@ -102,15 +109,43 @@ export class ChangeComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleRole(roleName: string) {
-    this.userRoles[roleName] = !this.userRoles[roleName];
+  toggleRole(roleName: string, e: MatChipSelectionChange) {
+    this.userRoles[roleName] = e.selected;
+    this.userRolesDirty = true;
     this.form.updateValueAndValidity();
+  }
+
+  create() {
+    const newUser = this.getUserFromForm() as IUserChange;
+    this._users.createUser(newUser).pipe(
+      finalize(() => {
+        this.isMakingRequest = false;
+        this.form.enable({onlySelf: false, emitEvent: true});
+      }),
+    ).subscribe(
+      () => {
+        this._snackBar.dismiss();
+        const translations = this._l10n.translate.translate(['user.create.done', 'dialog.ok']);
+        this._snackBar.open(translations['user.create.done'], translations['dialog.ok']);
+        this._snackBarWithError = false;
+        this.goBack();
+      },
+      err => {
+        const msg = getUserUpdateOrCreateErrorMessage(err);
+        this._snackBar.dismiss();
+        const translations = this._l10n.translate.translate([msg, 'dialog.ok']);
+        this._snackBar.open(translations[msg], translations['dialog.ok']);
+        this._snackBarWithError = true;
+      }
+    );
+    this.isMakingRequest = true;
+    this.form.disable({onlySelf: false, emitEvent: true});
   }
 
   update() {
     const changedUser = this.getUserFromForm();
     this._users.updateUser(this.user!.userId, changedUser).pipe(
-      tap(() => {
+      finalize(() => {
         this.isMakingRequest = false;
         this.form.enable({onlySelf: false, emitEvent: true});
       }),
@@ -120,6 +155,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
         const translations = this._l10n.translate.translate(['user.update.done', 'dialog.ok']);
         this._snackBar.open(translations['user.update.done'], translations['dialog.ok']);
         this._snackBarWithError = false;
+        this.goBack();
       },
       err => {
         const msg = getUserUpdateOrCreateErrorMessage(err);
@@ -133,28 +169,8 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this.form.disable({onlySelf: false, emitEvent: true});
   }
 
-  create() {
-    const newUser = this.getUserFromForm() as IUserChange;
-    this._users.createUser(newUser).pipe(
-      tap(() => {
-        this.isMakingRequest = false;
-      }),
-    ).subscribe(
-      () => {
-        this._snackBar.dismiss();
-        const translations = this._l10n.translate.translate(['user.create.done', 'dialog.ok']);
-        this._snackBar.open(translations['user.create.done'], translations['dialog.ok']);
-        this._snackBarWithError = false;
-      },
-      err => {
-        const msg = getUserUpdateOrCreateErrorMessage(err);
-        this._snackBar.dismiss();
-        const translations = this._l10n.translate.translate([msg, 'dialog.ok']);
-        this._snackBar.open(translations[msg], translations['dialog.ok']);
-        this._snackBarWithError = true;
-      }
-    );
-    this.isMakingRequest = true;
+  goBack() {
+    this._location.back();
   }
 
   getUserFromForm(): Partial<IUserChange> | IUserChange {

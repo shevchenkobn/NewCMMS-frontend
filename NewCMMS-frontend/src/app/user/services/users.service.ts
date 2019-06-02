@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser, IUserChange } from '../../shared/models/user.model';
-import { Observable } from 'rxjs';
-import { isNumericId } from '../../shared/validators/id';
+import { Observable, throwError } from 'rxjs';
+import { assertNumericId, isNumericId } from '../../shared/validators/id';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -27,7 +27,11 @@ export class UsersService {
   }
 
   getUser(userId: number) {
-    this.assertUserId(userId);
+    try {
+      assertNumericId(userId, 'userId');
+    } catch (err) {
+      return throwError(err);
+    }
     return this._http.get<IUser>(UsersService.USERS_BASE + userId.toString(), {
       params: {
         ...UsersService.PARAMS,
@@ -49,11 +53,15 @@ export class UsersService {
   updateUser(userId: number, user: Partial<IUserChange>, returnUser?: false): Observable<null>;
   updateUser(userId: number, user: Partial<IUserChange>, returnUser: true): Observable<IUser>;
   updateUser(userId: number, user: Partial<IUserChange>, returnUser = false) {
-    this.assertUserId(userId);
+    try {
+      assertNumericId(userId, 'userId');
+    } catch (err) {
+      return throwError(err);
+    }
     const params: Record<string, string | string[]> = returnUser ? {
       ...UsersService.PARAMS,
     } : {};
-    return this._http.post<IUser | null>(UsersService.USERS_BASE + userId.toString(), user, {
+    return this._http.patch<IUser | null>(UsersService.USERS_BASE + userId.toString(), user, {
       params
     });
   }
@@ -61,16 +69,14 @@ export class UsersService {
   deleteUser(userId: number, returnUser?: false): Observable<null>;
   deleteUser(userId: number, returnUser: true): Observable<IUser>;
   deleteUser(userId: number, returnUser = false) {
-    this.assertUserId(userId);
+    try {
+      assertNumericId(userId, 'userId');
+    } catch (err) {
+      return throwError(err);
+    }
     const params: Record<string, string | string[]> = returnUser ? {
       ...UsersService.PARAMS,
     } : {};
     return this._http.delete<IUser | null>(UsersService.USERS_BASE + userId.toString(), params);
-  }
-
-  protected assertUserId(userId: number) {
-    if (!isNumericId(userId)) {
-      throw new TypeError('userId must be a non-negative integer');
-    }
   }
 }
