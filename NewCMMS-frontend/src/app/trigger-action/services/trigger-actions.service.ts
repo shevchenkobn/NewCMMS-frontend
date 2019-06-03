@@ -51,7 +51,7 @@ export class TriggerActionsService {
     } catch (err) {
       return throwError(err);
     }
-    return this._http.patch<null>(TriggerActionsService.TRIGGER_ACTIONS_BASE, triggerAction);
+    return this._http.patch<null>(TriggerActionsService.TRIGGER_ACTIONS_BASE + triggerActionId.toString(), triggerAction);
   }
 
   deleteTriggerAction(triggerActionId: number): Observable<null> {

@@ -1,3 +1,51 @@
-<p>
-  change works!
-</p>
+<script src="../trigger-action-routing.module.ts"></script>
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-header class="app-progress-bar-container">
+      <app-progress-bar [show]="isMakingRequest"></app-progress-bar>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="fit-parent-width">
+        <mat-label translate>trigger-action.labels.trigger-device</mat-label>
+        <input matInput
+               type="text"
+               formControlName="triggerDevice"
+               required="required"
+               name="triggerDevice"
+               [matAutocomplete]="autoTriggerDevice">
+        <mat-autocomplete autoActiveFirstOption #autoTriggerDevice="matAutocomplete" [displayWith]="displayDeviceName">
+          <mat-option *ngFor="let triggerDevice of triggerDeviceAutocompleteList$ | async" [value]="triggerDevice">
+            {{triggerDevice.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="controls.triggerDevice.invalid" translate>trigger-action.errors.trigger-device</mat-error>
+      </mat-form-field>
+      <mat-form-field class="fit-parent-width">
+        <mat-label translate>trigger-action.labels.action-device</mat-label>
+        <input matInput
+               type="text"
+               formControlName="actionDevice"
+               required="required"
+               name="actionDevice"
+               [matAutocomplete]="autoActionDevice">
+        <mat-autocomplete autoActiveFirstOption #autoActionDevice="matAutocomplete" [displayWith]="displayDeviceName">
+          <mat-option *ngFor="let actionDevice of actionDeviceAutocompleteList$ | async" [value]="actionDevice">
+            {{actionDevice.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="controls.actionDevice.invalid" translate>trigger-action.errors.action-device</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions align="start">
+      <button *ngIf="!triggerAction" mat-raised-button color="primary"
+              [disabled]="!form.valid || isMakingRequest"
+              (click)="create()">{{'trigger-device.create.submit' | translate:lang}}</button>
+      <button *ngIf="triggerAction" mat-raised-button color="primary"
+              [disabled]="!form.valid || isMakingRequest"
+              (click)="update()">{{'trigger-device.update.submit' | translate:lang}}</button>
+      <button mat-button color="primary"
+              [disabled]="isMakingRequest"
+              (click)="goBack()">{{'buttons.cancel' | translate:lang}}</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -7,6 +7,8 @@ import { TriggerDevicesResolver } from '../trigger-device/resolvers/trigger-devi
 import { ActionDevicesResolver } from '../action-device/resolvers/action-devices.resolver';
 import { UserRoles } from '../shared/models/user.model';
 import { ListComponent } from './list/list.component';
+import { ChangeComponent } from './change/change.component';
+import { TriggerActionResolver } from './resolvers/trigger-action.resolver';
 
 const routes: Routes = [
   {
@@ -23,6 +25,23 @@ const routes: Routes = [
         },
         component: ListComponent,
       },
+      {
+        path: ChangeComponent.createRoute,
+        resolve: {
+          triggerDevices: TriggerDevicesResolver,
+          actionDevices: ActionDevicesResolver,
+        },
+        component: ChangeComponent,
+      },
+      {
+        path: ChangeComponent.updateRoute,
+        resolve: {
+          triggerAction: TriggerActionResolver,
+          triggerDevices: TriggerDevicesResolver,
+          actionDevices: ActionDevicesResolver,
+        },
+        component: ChangeComponent,
+      }
     ],
   },
 ];

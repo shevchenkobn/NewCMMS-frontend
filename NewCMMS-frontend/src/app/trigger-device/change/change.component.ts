@@ -201,7 +201,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  protected getTriggerDeviceFromForm(): Partial<ITriggerDevice> | ITriggerDevice {
+  protected getTriggerDeviceFromForm(): Partial<ITriggerDeviceChange> | ITriggerDeviceChange {
     if (!this.triggerDevice) {
       return {
         physicalAddress: this.controls.physicalAddress.value,
@@ -210,7 +210,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
         type: this.controls.type.value,
       };
     }
-    const triggerDeviceChange = {} as Partial<ITriggerDevice>;
+    const triggerDeviceChange = {} as Partial<ITriggerDeviceChange>;
     if (this.triggerDevice.physicalAddress !== this.controls.physicalAddress.value) {
       triggerDeviceChange.physicalAddress = this.controls.physicalAddress.value;
     }

@@ -21,6 +21,7 @@ import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../..
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Nullable } from '../../@types';
 import iterate from 'iterare';
+import { ChangeComponent } from '../change/change.component';
 
 @Component({
   selector: 'app-list',
@@ -37,7 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
   columnsToDisplay: ReadonlyArray<string>;
   routerLinks = {
     create: 'create',
-    getEditRoute: (id: any) => '',
+    getEditRoute: ChangeComponent.getUpdateRoute,
   };
   protected _langChanged$!: Subscription;
   protected _triggerActions: TriggerActionsService;
@@ -66,7 +67,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this._snackBar = snackBar;
     this._l10n = l10n;
     this.lang = this._l10n.locale.getCurrentLanguage();
-    title.setWrappedLocalizedTitle('titles.trigger-devices.list');
+    title.setWrappedLocalizedTitle('titles.trigger-actions.list');
     this.isMakingRequest = false;
     this.columnsToDisplay = ['triggerDeviceName', 'actionDeviceName', 'edit', 'delete'];
   }
@@ -108,6 +109,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this._triggerActions.deleteTriggerAction(triggerActionId).subscribe(
         () => {
           this.doRefreshAndUpdateComponent(() => {
+            this.isMakingRequest = false;
             const translations = this._l10n.translate.translate(['trigger-action.delete.done', 'dialog.ok']);
             this._snackBar.dismiss();
             this._snackBar.open(translations['trigger-action.delete.done'], translations['dialog.ok']);
