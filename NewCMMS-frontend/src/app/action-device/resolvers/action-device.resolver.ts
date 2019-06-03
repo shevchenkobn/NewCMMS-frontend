@@ -34,7 +34,7 @@ export class ActionDeviceResolver implements Resolve<IActionDevice[]> {
           return of(null as any);
         }
         if (err instanceof AppError) {
-          console.error('AppError in user resolver', err);
+          console.error('AppError in action device resolver', err);
           this.navigateToNotFound(route);
         }
         return throwError(err);

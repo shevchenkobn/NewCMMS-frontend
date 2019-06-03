@@ -7,7 +7,7 @@
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && (hasRole(userRoles.EMPLOYEE) || hasRole(userRoles.ADMIN))"
-     [routerLink]="[routerLinks.triggerDevices]">
+     [routerLink]="routerLinks.triggerDevices">
     <mat-icon mat-list-icon>nfc</mat-icon>
     <span>{{ 'nav.triggerDevices' | translate:activeLang }}</span>
   </a>
@@ -16,6 +16,12 @@
      [routerLink]="routerLinks.actionDevices">
     <mat-icon mat-list-icon>devices</mat-icon>
     <span>{{ 'nav.actionDevices' | translate:activeLang }}</span>
+  </a>
+  <a mat-list-item
+     *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
+     [routerLink]="routerLinks.triggerActions">
+    <mat-icon mat-list-icon>router</mat-icon>
+    <span>{{ 'nav.triggerActions' | translate:activeLang }}</span>
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"

@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 export const usersBaseRoute = 'users';
 export const actionDevicesBaseRoute = 'action-devices';
 export const triggerDevicesBaseRoute = 'trigger-devices';
+export const triggerActionsBaseRoute = 'trigger-actions';
 
 const routes: Routes = [
   { path: LoginComponent.route, component: LoginComponent, pathMatch: 'full' },
