@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { ActionDeviceModule } from './action-device/action-device.module';
 import { TriggerDeviceModule } from './trigger-device/trigger-device.module';
 import { TriggerActionModule } from './trigger-action/trigger-action.module';
+import {BillsModule} from './bills/bills.module';
 
 export function onAppInitProvider(l10nService: L10nService) {
   return () => {
@@ -36,6 +37,7 @@ export function onAppInitProvider(l10nService: L10nService) {
     ActionDeviceModule,
     TriggerDeviceModule,
     TriggerActionModule,
+    BillsModule,
     AppRoutingModule, // it should be last
   ],
   providers: [

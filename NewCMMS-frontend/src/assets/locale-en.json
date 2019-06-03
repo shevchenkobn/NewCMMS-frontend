@@ -217,6 +217,32 @@
       "done": "The trigger action was updated"
     }
   },
+  "bills": {
+    "labels": {
+      "trigger-device": "Trigger device",
+      "action-device": "Action device"
+    },
+    "errors": {
+      "trigger-device": "Trigger device is required",
+      "action-device": "Action device is required",
+      "not-found": "The trigger action is not found (was deleted previously)"
+    },
+    "list": {
+      "empty": "No trigger actions found"
+    },
+    "delete": {
+      "question": "Delete trigger action?",
+      "done": "Trigger action was deleted"
+    },
+    "create": {
+      "submit": "Create trigger action",
+      "done": "The trigger action was created"
+    },
+    "update": {
+      "submit": "Update trigger action",
+      "done": "The trigger action was updated"
+    }
+  },
   "buttons": {
     "cancel": "Cancel"
   }
