@@ -16,6 +16,7 @@ import { Nullable } from '../../@types';
 import { TriggerDevicesResolver } from '../resolvers/trigger-devices.resolver';
 import { IUser, UserRoles } from '../../shared/models/user.model';
 import { ProfileResolver } from '../../shared/auth/identity.resolver';
+import { ChangeComponent } from '../change/change.component';
 
 @Component({
   selector: 'app-list',
@@ -32,8 +33,8 @@ export class ListComponent implements OnInit, OnDestroy {
   triggerDeviceStatus = TriggerDeviceStatus;
   columnsToDisplay!: ReadonlyArray<string>;
   routerLinks = {
-    create: '',
-    getEditRoute: (id: any) => [''],
+    create: ChangeComponent.createRoute,
+    getEditRoute: ChangeComponent.getUpdateRoute,
   };
   protected _langChanged$!: Subscription;
   protected _triggerDevices: TriggerDevicesService;

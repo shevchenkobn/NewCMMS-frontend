@@ -17,6 +17,8 @@ export const routes: Routes = [
     children: [
       {
         path: ListComponent.route,
+        canActivate: [AuthGuard],
+        data: { authRoles: [UserRoles.EMPLOYEE, UserRoles.ADMIN] },
         // canLoad: [AuthGuard],
         resolve: { identity: ProfileResolver, users: UsersResolver },
         component: ListComponent,

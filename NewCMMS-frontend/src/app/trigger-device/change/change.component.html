@@ -1,0 +1,60 @@
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-header class="app-progress-bar-container">
+      <app-progress-bar [show]="isMakingRequest"></app-progress-bar>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="fit-parent-width">
+        <mat-label translate>trigger-device.labels.physical-address</mat-label>
+        <input matInput
+               type="text"
+               [textMask]="{mask: physicalAddressMask}"
+               required="required"
+               formControlName="physicalAddress"
+               name="physicalAddress"/>
+        <mat-error *ngIf="controls.physicalAddress.invalid" translate>trigger-device.errors.physical-address</mat-error>
+      </mat-form-field>
+      <mat-label translate>trigger-device.labels.status</mat-label>
+      <mat-radio-group matInput
+                       required="required"
+                       formControlName="status"
+                       name="status"
+                       class="fit-parent-width">
+        <mat-radio-button *ngFor="let statusName of triggerDeviceStatusNames"
+                          [value]="triggerDeviceStatus[statusName]"
+                          class="fit-parent-width padding-05">
+          {{'trigger-device.status.' + statusName | translate:lang}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field class="fit-parent-width">
+        <mat-label translate>trigger-device.labels.name</mat-label>
+        <input matInput
+               type="text"
+               required="required"
+               formControlName="name"
+               name="name"/>
+        <mat-error *ngIf="controls.name.invalid" translate>trigger-device.errors.name</mat-error>
+      </mat-form-field>
+      <mat-form-field class="fit-parent-width">
+        <mat-label translate>trigger-device.labels.type</mat-label>
+        <input matInput
+               type="text"
+               required="required"
+               formControlName="type"
+               name="type"/>
+        <mat-error *ngIf="controls.type.invalid" translate>trigger-device.errors.type</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions align="start">
+      <button *ngIf="!triggerDevice" mat-raised-button color="primary"
+              [disabled]="!form.valid || isMakingRequest"
+              (click)="create()">{{'trigger-device.create.submit' | translate:lang}}</button>
+      <button *ngIf="triggerDevice" mat-raised-button color="primary"
+              [disabled]="!form.valid || isMakingRequest"
+              (click)="update()">{{'trigger-device.update.submit' | translate:lang}}</button>
+      <button mat-button color="primary"
+              [disabled]="isMakingRequest"
+              (click)="goBack()">{{'buttons.cancel' | translate:lang}}</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

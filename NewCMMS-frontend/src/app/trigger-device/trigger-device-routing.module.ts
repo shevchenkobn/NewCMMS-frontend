@@ -6,6 +6,8 @@ import { ListComponent } from './list/list.component';
 import { TriggerDevicesResolver } from './resolvers/trigger-devices.resolver';
 import { UserRoles } from '../shared/models/user.model';
 import { ProfileResolver } from '../shared/auth/identity.resolver';
+import { ChangeComponent } from './change/change.component';
+import { TriggerDeviceResolver } from './resolvers/trigger-device.resolver';
 
 const routes: Routes = [
   {
@@ -22,6 +24,19 @@ const routes: Routes = [
         },
         component: ListComponent,
       },
+      {
+        path: ChangeComponent.createRoute,
+        canActivate: [AuthGuard],
+        data: { authRoles: UserRoles.ADMIN },
+        component: ChangeComponent,
+      },
+      {
+        path: ChangeComponent.updateRoute,
+        canActivate: [AuthGuard],
+        data: { authRoles: UserRoles.ADMIN },
+        resolve: { triggerDevice: TriggerDeviceResolver },
+        component: ChangeComponent,
+      }
     ],
   }
 ];

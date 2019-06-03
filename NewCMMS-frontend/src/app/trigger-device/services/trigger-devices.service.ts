@@ -12,7 +12,7 @@ export class TriggerDevicesService {
   public static readonly TRIGGER_DEVICES_BASE = 'trigger-devices/';
   public static readonly PARAMS: Readonly<Record<string, string | string[]>> = {
     'select': (
-      ['actionDeviceId', 'physicalAddress', 'name', 'type', 'status'] as ReadonlyArray<keyof ITriggerDevice>
+      ['triggerDeviceId', 'physicalAddress', 'name', 'type', 'status'] as ReadonlyArray<keyof ITriggerDevice>
     ).join(','),
   };
 
@@ -56,9 +56,9 @@ export class TriggerDevicesService {
     );
   }
 
-  updateTriggerDevice(triggerDeviceId: number, triggerDevice: ITriggerDeviceChange, returnTriggerDevice?: false): Observable<null>;
-  updateTriggerDevice(triggerDeviceId: number, triggerDevice: ITriggerDeviceChange, returnTriggerDevice: true): Observable<null>;
-  updateTriggerDevice(triggerDeviceId: number, triggerDevice: ITriggerDeviceChange, returnTriggerDevice = false) {
+  updateTriggerDevice(triggerDeviceId: number, triggerDevice: Partial<ITriggerDeviceChange>, returnTriggerDevice?: false): Observable<null>;
+  updateTriggerDevice(triggerDeviceId: number, triggerDevice: Partial<ITriggerDeviceChange>, returnTriggerDevice: true): Observable<null>;
+  updateTriggerDevice(triggerDeviceId: number, triggerDevice: Partial<ITriggerDeviceChange>, returnTriggerDevice = false) {
     try {
       assertNumericId(triggerDeviceId, 'triggerDeviceId');
     } catch (err) {
