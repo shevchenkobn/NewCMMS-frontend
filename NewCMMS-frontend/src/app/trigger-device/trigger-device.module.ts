@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { TriggerDeviceRoutingModule } from './trigger-device-routing.module';
+import { ListComponent } from './list/list.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [ListComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     TriggerDeviceRoutingModule
   ]
 })

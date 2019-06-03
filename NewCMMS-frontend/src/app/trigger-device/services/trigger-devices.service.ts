@@ -22,7 +22,7 @@ export class TriggerDevicesService {
     this._http = http;
   }
 
-  getTrggerDevices() {
+  getTriggerDevices() {
     return this._http.get<{ triggerDevices: ITriggerDevice[] }>(TriggerDevicesService.TRIGGER_DEVICES_BASE).pipe(
       map(devices => devices.triggerDevices),
     );

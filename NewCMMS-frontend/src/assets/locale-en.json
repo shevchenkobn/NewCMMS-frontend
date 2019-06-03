@@ -148,6 +148,42 @@
       "done": "The action device was updated"
     }
   },
+  "trigger-device": {
+    "labels": {
+      "physical-address": "Physical address",
+      "name": "Device name",
+      "type": "Device type",
+      "status": "Status"
+    },
+    "status": {
+      "CONNECTED": "Connected",
+      "DISCONNECTED": "Disconnected"
+    },
+    "errors": {
+      "physical-address": "Physical address must be unique, 12 hexadecimal number",
+      "name": "A unique name is required",
+      "type": "Type is required",
+      "status": "Status is required",
+      "not-found": "The trigger device is not found (was deleted previously)",
+      "physical-address-dup": "There exists trigger device with such physical address",
+      "name-dup": "There exists trigger device with such name"
+    },
+    "list": {
+      "empty": "No trigger devices found"
+    },
+    "delete": {
+      "question": "Delete trigger device?",
+      "done": "Trigger device was deleted"
+    },
+    "create": {
+      "submit": "Create trigger device",
+      "done": "The trigger device was created"
+    },
+    "update": {
+      "submit": "Update trigger device",
+      "done": "The trigger device was updated"
+    }
+  },
   "buttons": {
     "cancel": "Cancel"
   }
