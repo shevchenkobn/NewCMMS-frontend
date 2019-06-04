@@ -1,6 +1,7 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AbstractControl } from '@angular/forms';
+import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 export function getFullPath(pathFromRoot: ActivatedRouteSnapshot[], startingSlash = true) {
   return (startingSlash ? '/' : '') + pathFromRoot.map(o => o.url.map(u => u.path).join('/')).join('/');
@@ -33,3 +34,15 @@ export function repeatArray<T>(array: ReadonlyArray<T>, count: number): T[] {
   }
   return arr as any;
 }
+
+export const dateTimeFormat: DateTimeFormatOptions = {
+  weekday: 'long',
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+};
+
+export const cashFormat = '1.0-6';

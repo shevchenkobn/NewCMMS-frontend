@@ -25,7 +25,7 @@
   </a>
   <a mat-list-item
      *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)"
-     [routerLink]="[routerLinks.bills]">
+     [routerLink]="routerLinks.bills">
     <mat-icon mat-list-icon>monetization_on</mat-icon>
     <span>{{ 'nav.bills' | translate:activeLang }}</span>
   </a>

@@ -37,7 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
   actionDevices!: Map<number, IActionDevice>;
   columnsToDisplay: ReadonlyArray<string>;
   routerLinks = {
-    create: 'create',
+    create: ChangeComponent.createRoute,
     getEditRoute: ChangeComponent.getUpdateRoute,
   };
   protected _langChanged$!: Subscription;

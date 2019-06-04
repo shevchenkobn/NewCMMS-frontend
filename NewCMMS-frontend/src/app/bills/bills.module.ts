@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { BillsRoutingModule } from './bills-routing.module';
 import { BillListComponent } from './bill-list/bill-list.component';
+import { SharedModule } from '../shared/shared.module';
+import { BillRateListComponent } from './bill-rate-list/bill-rate-list.component';
 
 @NgModule({
-  declarations: [BillListComponent],
+  declarations: [BillListComponent, BillRateListComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     BillsRoutingModule
   ]
 })

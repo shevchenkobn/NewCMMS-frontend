@@ -34,7 +34,7 @@ export class BillRatesResolver implements Resolve<IBillRate[]> {
           return of(null as any);
         }
         if (err instanceof AppError) {
-          console.error('AppError in bill rates resolver', err);
+          console.error('AppError in billRate rates resolver', err);
           this.navigateToNotFound(route);
         }
         return throwError(err);

@@ -11,6 +11,7 @@ import { ListComponent as UserListComponent } from '../user/list/list.component'
 import { ListComponent as ActionDeviceListComponent } from '../action-device/list/list.component';
 import { ListComponent as TriggerDeviceListComponent } from '../trigger-device/list/list.component';
 import { ListComponent as TriggerActionsListComponent } from '../trigger-action/list/list.component';
+import { BillListComponent } from '../bills/bill-list/bill-list.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,11 +27,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   routerLinks = { // FIXME: use static constants
     login: LoginComponent.route,
     users: UserListComponent.getAbsoluteRoute(),
-    identity: 'identity/',
+    identityUserTriggerHistory: 'identity/user-trigger-history',
     triggerDevices: TriggerDeviceListComponent.getAbsoluteRoute(),
     actionDevices: ActionDeviceListComponent.getAbsoluteRoute(),
     triggerActions: TriggerActionsListComponent.getAbsoluteRoute(),
-    bills: 'bills/',
+    bills: BillListComponent.getAbsoluteRoute(),
   };
   locales = Object.entries({
     'uk': 'Українська',
