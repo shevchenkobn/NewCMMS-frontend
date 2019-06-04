@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { IUser, UserRoles } from '../models/user.model';
 import { map } from 'rxjs/operators';
+import {LoginComponent} from '../../login/login.component';
 
 @Injectable({
   providedIn: 'root'
@@ -66,12 +67,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   private redirectToLoginFromSnapshot(next: ActivatedRouteSnapshot) {
     this._auth.redirectUrl = next.pathFromRoot;
-    this.navigate(AuthService.AUTH_LOGIN_PATH);
+    this.navigate(LoginComponent.route);
   }
 
   private redirectToLoginFromRoute(route: Route) {
     this._auth.redirectUrl = route.path;
-    this.navigate(AuthService.AUTH_LOGIN_PATH);
+    this.navigate(LoginComponent.route);
   }
 
   private navigate(path: string) {

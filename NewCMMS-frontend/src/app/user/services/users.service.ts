@@ -13,7 +13,7 @@ import { AuthService } from '../../shared/auth/auth.service';
 export class UsersService {
   static readonly USERS_BASE = 'users/';
   static readonly TRIGGER_HISTORY_BASE = '/trigger-history/';
-  static readonly IDENTITY_TRIGGER_HISTORY_BASE = AuthService.AUTH_BASE_PATH + '/identity/trigger-history';
+  static readonly IDENTITY_TRIGGER_HISTORY_BASE = AuthService.IDENTITY_PATH + '/trigger-history';
   static readonly PARAMS: Readonly<{ [name: string]: string | string[] }> = {
     'select': ['userId', 'email', 'role', 'fullName'].join(','),
   };

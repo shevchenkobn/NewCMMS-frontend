@@ -52,7 +52,9 @@ export class AuthService {
       tokenGetter: () => this.getAccessToken(),
     });
 
-    this.setAccessTokenMembers();
+    try {
+      this.setAccessTokenMembers();
+    } catch {}
     this._onLoginChange = new Subject<boolean>();
     this.onLoginChange = this._onLoginChange.asObservable();
     this._onTokenRefresh = new Subject<string>();
