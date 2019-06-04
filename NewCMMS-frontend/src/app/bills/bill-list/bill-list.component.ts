@@ -93,7 +93,7 @@ export class BillListComponent implements OnInit, OnDestroy {
   deleteBill(billId: number) {
     this._dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'billRate.delete.question'
+        message: 'bill.delete.question'
       },
       autoFocus: false
     }).afterClosed().subscribe(yes => {
@@ -105,9 +105,9 @@ export class BillListComponent implements OnInit, OnDestroy {
         () => {
           this.doRefreshAndUpdateComponent(() => {
             this.isMakingRequest = false;
-            const translations = this._l10n.translate.translate(['billRate.delete.done', 'dialog.ok']);
+            const translations = this._l10n.translate.translate(['bill.delete.done', 'dialog.ok']);
             this._snackBar.dismiss();
-            this._snackBar.open(translations['billRate.delete.done'], translations['dialog.ok']);
+            this._snackBar.open(translations['bill.delete.done'], translations['dialog.ok']);
           });
         },
         (err: any) => {
