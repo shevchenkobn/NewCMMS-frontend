@@ -36,9 +36,10 @@
       "delete": "Delete user trigger"
     },
     "bills": {
-      "list": "Bills",
-      "details": "Bill details",
-      "delete": "Delete bill"
+      "list": "Bills"
+    },
+    "bill-rates": {
+      "list": "Bill rates"
     }
   },
   "nav": {
@@ -217,30 +218,31 @@
       "done": "The trigger action was updated"
     }
   },
-  "bills": {
+  "bill": {
     "labels": {
       "trigger-device": "Trigger device",
-      "action-device": "Action device"
+      "started-at": "Period start",
+      "finished-at": "Period finish",
+      "sum": "Sum"
     },
     "errors": {
-      "trigger-device": "Trigger device is required",
-      "action-device": "Action device is required",
-      "not-found": "The trigger action is not found (was deleted previously)"
+      "not-found": "The bill is not found (was deleted previously)"
     },
     "list": {
-      "empty": "No trigger actions found"
+      "empty": "No bills found"
     },
     "delete": {
-      "question": "Delete trigger action?",
-      "done": "Trigger action was deleted"
+      "question": "Delete bill?",
+      "done": "Bill was deleted"
+    }
+  },
+  "bill-rate": {
+    "labels": {
+      "action-device": "Action device",
+      "hourly-rate": "Hourly rate"
     },
-    "create": {
-      "submit": "Create trigger action",
-      "done": "The trigger action was created"
-    },
-    "update": {
-      "submit": "Update trigger action",
-      "done": "The trigger action was updated"
+    "list": {
+      "empty": "No bills found"
     }
   },
   "buttons": {
