@@ -11,3 +11,7 @@ export interface IUserTrigger {
   triggerType: UserTriggerType;
   triggerTime: Date;
 }
+
+// export const userTriggerTypeNames = Object.keys(UserTriggerType).filter(
+//   t => Number.isNaN(Number.parseInt(t, 10))
+// );

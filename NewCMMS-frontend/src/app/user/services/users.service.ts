@@ -3,14 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { IUser, IUserChange } from '../../shared/models/user.model';
 import { Observable, throwError } from 'rxjs';
 import { assertNumericId, isNumericId } from '../../shared/validators/id';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { IUserTrigger } from '../../shared/models/user-trigger.model';
+import { AuthService } from '../../shared/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  public static readonly USERS_BASE = 'users/';
-  public static readonly PARAMS: Readonly<{ [name: string]: string | string[] }> = {
+  static readonly USERS_BASE = 'users/';
+  static readonly TRIGGER_HISTORY_BASE = '/trigger-history/';
+  static readonly IDENTITY_TRIGGER_HISTORY_BASE = AuthService.AUTH_BASE_PATH + '/identity/trigger-history';
+  static readonly PARAMS: Readonly<{ [name: string]: string | string[] }> = {
     'select': ['userId', 'email', 'role', 'fullName'].join(','),
   };
 
@@ -78,5 +82,46 @@ export class UsersService {
       ...UsersService.PARAMS,
     } : {};
     return this._http.delete<IUser | null>(UsersService.USERS_BASE + userId.toString(), params);
+  }
+
+  getTriggerHistoryForUser(userId: number): Observable<IUserTrigger[]> {
+    try {
+      assertNumericId(userId, 'userId');
+    } catch (err) {
+      return throwError(err);
+    }
+    return this._http.get<{ userTriggers: any[] }>(UsersService.USERS_BASE + userId + UsersService.TRIGGER_HISTORY_BASE).pipe(
+      map(body => body.userTriggers),
+      tap(triggerHistory => {
+        for (const trigger of triggerHistory) {
+          trigger.triggerTime = new Date(trigger.triggerTime);
+        }
+      }),
+    );
+  }
+
+  getTriggerHistoryForIdentity(): Observable<IUserTrigger[]> {
+    return this._http.get<{ userTriggers: any[] }>(UsersService.IDENTITY_TRIGGER_HISTORY_BASE).pipe(
+      map(body => body.userTriggers),
+      tap(triggerHistory => {
+        for (const trigger of triggerHistory) {
+          trigger.triggerTime = new Date(trigger.triggerTime);
+        }
+      }),
+    );
+  }
+
+  deleteUserTrigger(userId: number, userTriggerId: number): Observable<null> {
+    try {
+      assertNumericId(userId, 'userId');
+    } catch (err) {
+      return throwError(err);
+    }
+    try {
+      assertNumericId(userTriggerId, 'userTriggerId');
+    } catch (err) {
+      return throwError(err);
+    }
+    return this._http.delete<null>(UsersService.USERS_BASE + userId + UsersService.TRIGGER_HISTORY_BASE + userTriggerId);
   }
 }

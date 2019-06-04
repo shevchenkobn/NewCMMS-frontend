@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { triggerDevicesBaseRoute } from '../app-routing.module';
 import { AuthGuard } from '../shared/auth/auth.guard';
 import { ListComponent } from './list/list.component';
 import { TriggerDevicesResolver } from './resolvers/trigger-devices.resolver';
@@ -8,6 +7,7 @@ import { UserRoles } from '../shared/models/user.model';
 import { ProfileResolver } from '../shared/auth/identity.resolver';
 import { ChangeComponent } from './change/change.component';
 import { TriggerDeviceResolver } from './resolvers/trigger-device.resolver';
+import { triggerDevicesBaseRoute } from '../routing-constants';
 
 const routes: Routes = [
   {

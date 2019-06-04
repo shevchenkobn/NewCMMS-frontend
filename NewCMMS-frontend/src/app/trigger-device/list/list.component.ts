@@ -7,7 +7,6 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
 import { TriggerDevicesService } from '../services/trigger-devices.service';
 import { TitleService } from '../../title.service';
-import { triggerDevicesBaseRoute } from '../../app-routing.module';
 import { finalize, switchMap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../../shared/http/server-error-utils';
@@ -17,6 +16,7 @@ import { TriggerDevicesResolver } from '../resolvers/trigger-devices.resolver';
 import { IUser, UserRoles } from '../../shared/models/user.model';
 import { ProfileResolver } from '../../shared/auth/identity.resolver';
 import { ChangeComponent } from '../change/change.component';
+import { triggerDevicesBaseRoute } from '../../routing-constants';
 
 @Component({
   selector: 'app-list',
@@ -28,6 +28,7 @@ export class ListComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   isMakingRequest: boolean;
   currentUser!: IUser;
+  isUserAdmin!: boolean;
   triggerDevices!: ITriggerDevice[];
   userRoles = UserRoles;
   triggerDeviceStatus = TriggerDeviceStatus;
@@ -148,7 +149,8 @@ export class ListComponent implements OnInit, OnDestroy {
     this._langChanged$ = this._l10n.languageCodeChangedLoadFinished.subscribe(lang => this.lang = lang);
     this.currentUser = this._route.snapshot.data[ProfileResolver.propName];
     this.triggerDevices = this._route.snapshot.data[TriggerDevicesResolver.propName];
-    this.columnsToDisplay = this.currentUser.role & UserRoles.ADMIN
+    this.isUserAdmin = !!(this.currentUser.role & UserRoles.ADMIN);
+    this.columnsToDisplay = this.isUserAdmin
       ? ['physicalAddress', 'status', 'name', 'type', 'edit', 'delete']
       : ['physicalAddress', 'status', 'name', 'type'];
   }

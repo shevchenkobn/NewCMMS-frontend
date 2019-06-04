@@ -45,7 +45,7 @@
   "nav": {
     "languages": "Language",
     "navigation": "Navigation",
-    "profile": "Profile",
+    "identityTriggerHistory": "Trigger history",
     "users": "Users",
     "triggerDevices": "Trigger devices",
     "actionDevices": "Action devices",
@@ -243,6 +243,29 @@
     },
     "list": {
       "empty": "No bills found"
+    }
+  },
+  "user-trigger-history": {
+    "labels": {
+      "trigger-user": "Trigger user",
+      "trigger-device": "Trigger device",
+      "trigger-type": "Trigger type",
+      "trigger-time": "Trigger time"
+    },
+    "type": {
+      "UNSPECIFIED": "Unspecified",
+      "ENTER": "Enter",
+      "LEAVE": "Leave"
+    },
+    "errors": {
+      "not-found": "The user trigger is not found (was deleted previously)"
+    },
+    "list": {
+      "empty": "No user trigger history found"
+    },
+    "delete": {
+      "question": "Delete user trigger?",
+      "done": "User trigger was deleted"
     }
   },
   "buttons": {

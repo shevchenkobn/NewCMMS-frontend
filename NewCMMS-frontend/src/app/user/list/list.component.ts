@@ -11,11 +11,12 @@ import { Language } from 'angular-l10n';
 import { Subscription } from 'rxjs';
 import { ProfileResolver } from '../../shared/auth/identity.resolver';
 import { UsersResolver } from '../resolvers/users.resolver';
-import { usersBaseRoute } from '../../app-routing.module';
 import { TitleService } from '../../title.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Nullable } from '../../@types';
 import { ChangeComponent } from '../change/change.component';
+import { UserTriggerHistoryComponent } from '../user-trigger-history/user-trigger-history.component';
+import { usersBaseRoute } from '../../routing-constants';
 
 @Component({
   selector: 'app-list',
@@ -30,12 +31,13 @@ export class ListComponent implements OnInit, OnDestroy {
   isMakingRequest: boolean;
   roleNames = userRoleNames;
   users!: IUser[];
-  userRoles!: ({ [role: string]: boolean })[];
+  isUserAdmin!: boolean;
+  usersRoles!: ({ [role: string]: boolean })[];
   columnsToDisplay!: ReadonlyArray<string>;
   routerLinks = {
     create: ChangeComponent.createRoute,
     getEditRoute: ChangeComponent.getUpdateRoute,
-    userTriggerHistory: 'trigger-history'
+    getUserTriggerHistoryRoute: UserTriggerHistoryComponent.getUserTriggerHistoryRoute
   };
   protected _langChanged$!: Subscription;
   protected _users: UsersService;
@@ -142,7 +144,8 @@ export class ListComponent implements OnInit, OnDestroy {
     this._langChanged$ = this._l10n.languageCodeChangedLoadFinished.subscribe(lang => this.lang = lang);
     this.saveUsers(this._route.snapshot.data[UsersResolver.propName] as IUser[]);
     this.currentUser = this._route.snapshot.data[ProfileResolver.propName];
-    this.columnsToDisplay = this.currentUser.role & UserRoles.ADMIN
+    this.isUserAdmin = !!(this.currentUser.role & UserRoles.ADMIN);
+    this.columnsToDisplay = this.isUserAdmin
       ? ['name', 'email', 'role', 'userTriggerHistory', 'edit', 'delete']
       : ['name', 'email', 'role'];
   }
@@ -154,6 +157,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   saveUsers(users: IUser[]) {
     this.users = users;
-    this.userRoles = users.map(userRoleToObject);
+    this.usersRoles = users.map(userRoleToObject);
   }
 }

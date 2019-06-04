@@ -58,7 +58,7 @@ export class BillRateListComponent implements OnInit, OnDestroy {
     this._snackBar = snackBar;
     this._l10n = l10n;
     this.lang = this._l10n.locale.getCurrentLanguage();
-    title.setWrappedLocalizedTitle('titles.billRate-rates.list');
+    title.setWrappedLocalizedTitle('titles.bill-rates.list');
     this.isMakingRequest = false;
     this.columnsToDisplay = ['actionDeviceName', 'rate'];
   }

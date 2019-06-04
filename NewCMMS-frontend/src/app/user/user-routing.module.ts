@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../shared/auth/auth.guard';
 import { ListComponent } from './list/list.component';
 import { ProfileResolver } from '../shared/auth/identity.resolver';
 import { UsersResolver } from './resolvers/users.resolver';
-import { usersBaseRoute } from '../app-routing.module';
 import { ChangeComponent } from './change/change.component';
 import { UserResolver } from './resolvers/user.resolver';
 import { UserRoles } from '../shared/models/user.model';
+import { UserTriggerHistoryComponent } from './user-trigger-history/user-trigger-history.component';
+import { UserTriggerHistoryResolver } from './resolvers/user-trigger-history.resolver';
+import { usersBaseRoute } from '../routing-constants';
+import { TriggerDevicesResolver } from '../trigger-device/resolvers/trigger-devices.resolver';
 
 export const routes: Routes = [
   {
@@ -37,6 +40,13 @@ export const routes: Routes = [
         data: { authRoles: UserRoles.ADMIN },
         resolve: { user: UserResolver },
         component: ChangeComponent,
+      },
+      {
+        path: UserTriggerHistoryComponent.userRoutePattern,
+        canActivate: [AuthGuard],
+        data: { authRoles: UserRoles.ADMIN },
+        resolve: { user: UserResolver, userTriggerHistory: UserTriggerHistoryResolver, triggerDevices: TriggerDevicesResolver },
+        component: UserTriggerHistoryComponent
       }
     ],
   },

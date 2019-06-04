@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { IActionDevice } from '../../shared/models/action-device.model';
-import { ActionDevicesService } from '../services/action-devices.service';
+import { IUserTrigger } from '../../shared/models/user-trigger.model';
+import { UsersService } from '../services/users.service';
 import { Observable, of, throwError } from 'rxjs';
+import { IUser } from '../../shared/models/user.model';
 import { catchError } from 'rxjs/operators';
 import { isClientHttpError } from '../../shared/http/server-error-utils';
 import { AppError } from '../../shared/services/error.service';
@@ -10,31 +11,31 @@ import { PageNotFoundComponent } from '../../page-not-found/page-not-found.compo
 import { getFullPath } from '../../shared/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ActionDeviceResolver implements Resolve<IActionDevice[]> {
-  static readonly propName = 'actionDevice';
-  static readonly paramName = 'actionDeviceId';
-  protected _actionDevices: ActionDevicesService;
+export class UserTriggerHistoryResolver implements Resolve<IUserTrigger[]> {
+  static readonly propName = 'userTriggerHistory';
+  static readonly paramName = 'userId';
+  protected _users: UsersService;
   protected _router: Router;
 
-  constructor(actionDevices: ActionDevicesService, router: Router) {
-    this._actionDevices = actionDevices;
+  constructor(usersService: UsersService, router: Router) {
+    this._users = usersService;
     this._router = router;
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
-  ): Observable<IActionDevice[]> | Promise<IActionDevice[]> | IActionDevice[] {
-    return this._actionDevices.getActionDevice(Number.parseInt(route.params[ActionDeviceResolver.paramName], 10)).pipe(
+  ): Observable<IUserTrigger[]> | Promise<IUserTrigger[]> | IUserTrigger[] {
+    return this._users.getTriggerHistoryForUser(Number.parseInt(route.params[UserTriggerHistoryResolver.paramName], 10)).pipe(
       catchError((err: any) => {
         if (isClientHttpError(err) && (err.status === 404 || err.status === 400)) {
           this.navigateToNotFound(route);
           return of(null as any);
         }
         if (err instanceof AppError) {
-          console.error('AppError in action device resolver', err);
+          console.error('AppError in userTrigger resolver', err);
           this.navigateToNotFound(route);
         }
         return throwError(err);
@@ -48,7 +49,7 @@ export class ActionDeviceResolver implements Resolve<IActionDevice[]> {
         url: getFullPath(route.pathFromRoot, false)
       }
     }).catch(navError => {
-      console.error('From action device by id resolve navigate', navError);
+      console.error('From userTrigger by id resolve navigate', navError);
     });
   }
 }

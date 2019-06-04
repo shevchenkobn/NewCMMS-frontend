@@ -15,6 +15,8 @@ import { IUser, UserRoles } from '../models/user.model';
 import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { UserTriggerHistoryComponent } from '../../user/user-trigger-history/user-trigger-history.component';
+import { usersBaseRoute } from '../../routing-constants';
 
 @Injectable({
   providedIn: CommonModule
@@ -54,11 +56,11 @@ export class HomeGuard implements CanActivate, CanActivateChild, CanLoad {
 
   private routeByRole(user: IUser) {
     if (user.role & UserRoles.ADMIN) {
-      this.redirect('/users'); // FIXME: use constants
+      this.redirect(usersBaseRoute);
     } else if (
       user.role & UserRoles.EMPLOYEE
     ) {
-      this.redirect('/home/drones'); // FIXME: use constants
+      this.redirect(UserTriggerHistoryComponent.identityRoute);
     }
     return false;
   }

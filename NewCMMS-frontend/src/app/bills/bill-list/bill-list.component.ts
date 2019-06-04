@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { L10nService } from '../../shared/services/l10n.service';
 import { TitleService } from '../../title.service';
-import { billsBaseRoute } from '../../app-routing.module';
 import { TriggerDevicesResolver } from '../../trigger-device/resolvers/trigger-devices.resolver';
 import { BillsResolver } from '../resolvers/bills.resolver';
 import iterate from 'iterare';
@@ -21,6 +20,7 @@ import { Nullable } from '../../@types';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import { cashFormat, dateTimeFormat } from '../../shared/utils';
 import { BillRateListComponent } from '../bill-rate-list/bill-rate-list.component';
+import { billsBaseRoute } from '../../routing-constants';
 
 @Component({
   selector: 'app-bill-list',

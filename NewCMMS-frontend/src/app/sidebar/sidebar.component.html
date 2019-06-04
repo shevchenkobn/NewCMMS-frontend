@@ -29,17 +29,17 @@
     <mat-icon mat-list-icon>monetization_on</mat-icon>
     <span>{{ 'nav.bills' | translate:activeLang }}</span>
   </a>
-<!--  <a mat-list-item-->
-<!--     *ngIf="isLoggedIn"-->
-<!--     [routerLink]="[routerLinks.identity]">-->
-<!--    <mat-icon mat-list-icon>account_circle</mat-icon>-->
-<!--    <span>{{ 'nav.profile' | translate:activeLang }}</span>-->
-<!--  </a>-->
   <a mat-list-item
      [routerLink]="routerLinks.users"
-     *ngIf="isLoggedIn && hasRole(userRoles.ADMIN)">
+     *ngIf="isLoggedIn && (hasRole(userRoles.ADMIN) || hasRole(userRoles.EMPLOYEE))">
     <mat-icon mat-list-icon>people</mat-icon>
     <span>{{ 'nav.users' | translate:activeLang }}</span>
+  </a>
+  <a mat-list-item
+     *ngIf="isLoggedIn && hasRole(userRoles.EMPLOYEE)"
+     [routerLink]="routerLinks.identityUserTriggerHistory">
+    <mat-icon mat-list-icon>history</mat-icon>
+    <span>{{ 'nav.identityTriggerHistory' | translate:activeLang }}</span>
   </a>
   <mat-list-item mat-list-item
                  *ngIf="isLoggedIn"

@@ -11,7 +11,6 @@ import { ITriggerAction } from '../../shared/models/trigger-action.model';
 import { IActionDevice } from '../../shared/models/action-device.model';
 import { TitleService } from '../../title.service';
 import { ActionDevicesService } from '../../action-device/services/action-devices.service';
-import { triggerActionsBaseRoute } from '../../app-routing.module';
 import { TriggerDevicesResolver } from '../../trigger-device/resolvers/trigger-devices.resolver';
 import { TriggerActionsResolver } from '../resolvers/trigger-actions.resolver';
 import { ActionDevicesResolver } from '../../action-device/resolvers/action-devices.resolver';
@@ -22,6 +21,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 import { Nullable } from '../../@types';
 import iterate from 'iterare';
 import { ChangeComponent } from '../change/change.component';
+import { triggerActionsBaseRoute } from '../../routing-constants';
 
 @Component({
   selector: 'app-list',

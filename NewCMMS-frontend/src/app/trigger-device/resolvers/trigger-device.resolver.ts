@@ -48,7 +48,7 @@ export class TriggerDeviceResolver implements Resolve<ITriggerDevice> {
         url: getFullPath(route.pathFromRoot, false)
       }
     }).catch(navError => {
-      console.error('From user by id resolve navigate', navError);
+      console.error('From trigger device by id resolve navigate', navError);
     });
   }
 }

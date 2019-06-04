@@ -48,7 +48,7 @@ export class TriggerActionResolver implements Resolve<ITriggerAction> {
         url: getFullPath(route.pathFromRoot, false)
       }
     }).catch(navError => {
-      console.error('From user by id resolve navigate', navError);
+      console.error('From trigger actoin by id resolve navigate', navError);
     });
   }
 }

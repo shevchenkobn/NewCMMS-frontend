@@ -12,6 +12,7 @@ import { ListComponent as ActionDeviceListComponent } from '../action-device/lis
 import { ListComponent as TriggerDeviceListComponent } from '../trigger-device/list/list.component';
 import { ListComponent as TriggerActionsListComponent } from '../trigger-action/list/list.component';
 import { BillListComponent } from '../bills/bill-list/bill-list.component';
+import { UserTriggerHistoryComponent } from '../user/user-trigger-history/user-trigger-history.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,7 +28,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   routerLinks = { // FIXME: use static constants
     login: LoginComponent.route,
     users: UserListComponent.getAbsoluteRoute(),
-    identityUserTriggerHistory: 'identity/user-trigger-history',
+    identityUserTriggerHistory: UserTriggerHistoryComponent.identityRouteLink,
     triggerDevices: TriggerDeviceListComponent.getAbsoluteRoute(),
     actionDevices: ActionDeviceListComponent.getAbsoluteRoute(),
     triggerActions: TriggerActionsListComponent.getAbsoluteRoute(),

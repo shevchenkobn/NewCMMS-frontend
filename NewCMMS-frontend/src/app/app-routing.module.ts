@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeGuard } from './shared/guards/home.guard';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
-
-export const usersBaseRoute = 'users';
-export const actionDevicesBaseRoute = 'action-devices';
-export const triggerDevicesBaseRoute = 'trigger-devices';
-export const triggerActionsBaseRoute = 'trigger-actions';
-export const billsBaseRoute = 'bills';
+import { UserTriggerHistoryComponent } from './user/user-trigger-history/user-trigger-history.component';
+import { LoginGuard } from './shared/guards/login.guard';
+import { UserRoles } from './shared/models/user.model';
+import { IdentityTriggerHistoryResolver } from './user/resolvers/identity-trigger-history.resolver';
+import { TriggerDevicesResolver } from './trigger-device/resolvers/trigger-devices.resolver';
 
 const routes: Routes = [
-  { path: LoginComponent.route, component: LoginComponent, pathMatch: 'full' },
+  { path: LoginComponent.route, canActivate: [LoginGuard], component: LoginComponent, pathMatch: 'full' },
+  {
+    path: UserTriggerHistoryComponent.identityRoute,
+    canActivate: [AuthGuard],
+    data: { authRoles: UserRoles.EMPLOYEE },
+    resolve: { identityTriggerHistory: IdentityTriggerHistoryResolver, triggerDevices: TriggerDevicesResolver },
+    component: UserTriggerHistoryComponent,
+  },
   { path: PageNotFoundComponent.dedicatedRoute, component: PageNotFoundComponent, pathMatch: 'full' },
   {
     path: '',

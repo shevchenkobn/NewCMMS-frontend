@@ -13,6 +13,7 @@
         </button>
         <div class="align-right">
           <a mat-icon-button
+             *ngIf="isUserAdmin"
              color="accent"
              [routerLink]="[routerLinks.create]"
              [class.disabled]="isMakingRequest"

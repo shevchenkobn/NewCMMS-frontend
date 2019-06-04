@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { actionDevicesBaseRoute } from '../../app-routing.module';
 import { Language } from 'angular-l10n';
 import { ActionDeviceStatus, IActionDevice } from '../../shared/models/action-device.model';
 import { Subscription } from 'rxjs';
@@ -15,6 +14,7 @@ import { getCommonErrorMessage, isClientHttpError, ServerErrorCode } from '../..
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Nullable } from '../../@types';
 import { ChangeComponent } from '../change/change.component';
+import { actionDevicesBaseRoute } from '../../routing-constants';
 
 @Component({
   selector: 'app-list',
