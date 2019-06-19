@@ -227,7 +227,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
       : formValue;
   }
 
-  protected displayDeviceName<T extends { name: string }>(device?: T) {
+  displayDeviceName<T extends { name: string }>(device?: T) {
     return device ? device.name : undefined;
   }
 
