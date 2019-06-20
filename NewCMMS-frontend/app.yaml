@@ -1,0 +1,152 @@
+runtime: nodejs10
+service: newcmms-frontend
+inbound_services:
+  - warmup
+
+handlers:
+  - url: /(.*\.(appcache|manifest))
+    mime_type: text/cache-manifest
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.(appcache|manifest))
+    expiration: "0m"
+
+  - url: /(.*\.atom)
+    mime_type: application/atom+xml
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.atom)
+    expiration: "1h"
+
+  - url: /(.*\.crx)
+    mime_type: application/x-chrome-extension
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.crx)
+
+  - url: /(.*\.css)
+    mime_type: text/css
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.css)
+
+  - url: /(.*\.eot)
+    mime_type: application/vnd.ms-fontobject
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.eot)
+
+  - url: /(.*\.htc)
+    mime_type: text/x-component
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.htc)
+
+  - url: /(.*\.html)
+    mime_type: text/html
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.html)
+    expiration: "1h"
+
+  - url: /(.*\.ico)
+    mime_type: image/x-icon
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.ico)
+    expiration: "7d"
+
+  - url: /(.*\.js)
+    mime_type: text/javascript
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.js)
+
+  - url: /(.*\.json)
+    mime_type: application/json
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.json)
+    expiration: "1h"
+
+  - url: /(.*\.m4v)
+    mime_type: video/m4v
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.m4v)
+
+  - url: /(.*\.mp4)
+    mime_type: video/mp4
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.mp4)
+
+  - url: /(.*\.(ogg|oga))
+    mime_type: audio/ogg
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.(ogg|oga))
+
+  - url: /(.*\.ogv)
+    mime_type: video/ogg
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.ogv)
+
+  - url: /(.*\.otf)
+    mime_type: font/opentype
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.otf)
+
+  - url: /(.*\.rss)
+    mime_type: application/rss+xml
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.rss)
+    expiration: "1h"
+
+  - url: /(.*\.safariextz)
+    mime_type: application/octet-stream
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.safariextz)
+
+  - url: /(.*\.(svg|svgz))
+    mime_type: images/svg+xml
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.(svg|svgz))
+
+  - url: /(.*\.swf)
+    mime_type: application/x-shockwave-flash
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.swf)
+
+  - url: /(.*\.ttf)
+    mime_type: font/truetype
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.ttf)
+
+  - url: /(.*\.txt)
+    mime_type: text/plain
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.txt)
+
+  - url: /(.*\.unity3d)
+    mime_type: application/vnd.unity
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.unity3d)
+
+  - url: /(.*\.webm)
+    mime_type: video/webm
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.webm)
+
+  - url: /(.*\.webp)
+    mime_type: image/webp
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.webp)
+
+  - url: /(.*\.woff)
+    mime_type: application/x-font-woff
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.woff)
+
+  - url: /(.*\.xml)
+    mime_type: application/xml
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.xml)
+    expiration: "1h"
+
+  - url: /(.*\.xpi)
+    mime_type: application/x-xpinstall
+    static_files: dist/NewCMMS-frontend/\1
+    upload: dist/NewCMMS-frontend/(.*\.xpi)
+  - url: /
+    static_files: dist/NewCMMS-frontend/index.html
+    upload: dist/NewCMMS-frontend/index.html
+  - url: /
+    static_dir: dist/NewCMMS-frontend
